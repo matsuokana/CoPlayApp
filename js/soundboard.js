@@ -297,7 +297,9 @@ async function saveRecording() {
 
   // 録音画面をリセット
   _recBlob = null;
-  document.getElementById('sound-name-input').value = '';
+  const nameInput = document.getElementById('sound-name-input');
+  nameInput.value = '';
+  nameInput.blur();
   document.getElementById('btn-rec-play').classList.add('hidden');
   document.getElementById('btn-rec-decide').classList.add('hidden');
   document.getElementById('icon-picker').querySelector('.icon-option')?.classList.add('selected');

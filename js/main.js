@@ -5,6 +5,11 @@ function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const target = document.getElementById('screen-' + name);
   if (target) target.classList.add('active');
+
+  // 録音画面以外ではすべての入力欄をblurしてiOSシェイク取り消しを抑制
+  if (name !== 'record') {
+    document.querySelectorAll('input, textarea').forEach(el => el.blur());
+  }
 }
 
 // ===== 初期化 =====

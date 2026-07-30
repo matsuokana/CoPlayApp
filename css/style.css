@@ -165,6 +165,12 @@ html, body {
   box-shadow: 0 0 16px rgba(201,168,76,0.5), inset 0 0 8px rgba(201,168,76,0.2);
   border-color: var(--gold2);
 }
+.sound-btn.selected-sound {
+  border-color: var(--gold2);
+  background: linear-gradient(145deg, #1e4a70 0%, #163860 100%);
+  box-shadow: 0 0 12px rgba(240,208,112,0.4);
+}
+.sound-btn.selected-sound .s-name { color: var(--gold2); }
 .sound-btn .s-icon { font-size: 2rem; }
 .sound-btn .s-name { font-size: 0.78rem; color: var(--gold2); font-weight: bold; text-align: center; word-break: break-all; }
 

@@ -121,7 +121,14 @@ function onDeviceMotion(e) {
   const now   = Date.now();
   if (total > SHAKE_THRESHOLD && now - _lastShake > COOLDOWN_MS) {
     _lastShake = now;
-    triggerFlash();
+    const active = document.querySelector('.screen.active');
+    const screenId = active ? active.id : '';
+    if (screenId === 'screen-shakelight') {
+      triggerFlash();
+    } else if (screenId === 'screen-soundboard') {
+      playSelectedSoundOnShake();
+    }
+    // それ以外の画面では何もしない
   }
 }
 

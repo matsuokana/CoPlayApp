@@ -24,8 +24,9 @@ const ICON_OPTIONS = [
 
 const MAX_USER_SOUNDS = 5;
 
-let _allSounds  = [];
-let _editTarget = null;
+let _allSounds    = [];
+let _editTarget   = null;
+let _selectedSound = null; // 振ったときに鳴らす音
 let _recorder   = null;
 let _recChunks  = [];
 let _recBlob    = null;
@@ -49,7 +50,15 @@ function renderGrid() {
     btn.dataset.id = s.id;
     btn.innerHTML  = `<span class="s-icon">${s.icon}</span><span class="s-name">${s.name}</span>`;
 
-    btn.addEventListener('click', () => onSoundTap(s, btn));
+    // 選択状態の復元
+    if (_selectedSound && _selectedSound.id === s.id) {
+      btn.classList.add('selected-sound');
+    }
+
+    btn.addEventListener('click', () => {
+      selectSound(s, btn);
+      onSoundTap(s, btn);
+    });
 
     // 長押し（ユーザー音源のみ編集可）
     if (s.type === 'user') {
@@ -72,9 +81,20 @@ function renderGrid() {
     userCount >= MAX_USER_SOUNDS ? 'none' : '';
 }
 
+function selectSound(s, btn) {
+  _selectedSound = s;
+  document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('selected-sound'));
+  btn.classList.add('selected-sound');
+}
+
 async function onSoundTap(s, btn) {
   btn.classList.add('playing');
   setTimeout(() => btn.classList.remove('playing'), 300);
+  await playSoundById(s);
+}
+
+async function playSoundById(s) {
+  if (!s) return;
   if (s.type === 'default') {
     await playDefaultSound(s.name);
   } else {
@@ -86,6 +106,13 @@ async function onSoundTap(s, btn) {
         await playBlobSound(e.target.result.blob);
       }
     };
+  }
+}
+
+// 振ったときに選択中の音を鳴らす（main.jsから呼び出される）
+async function playSelectedSoundOnShake() {
+  if (_selectedSound) {
+    await playSoundById(_selectedSound);
   }
 }
 

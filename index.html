@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>CoPlay - こどものえんそうかい</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ホーム画面 -->
+  <div id="screen-home" class="screen active">
+    <div class="home-bg">
+      <div class="curtain curtain-left"></div>
+      <div class="curtain curtain-right"></div>
+      <div class="stage-light"></div>
+    </div>
+    <div class="home-content">
+      <h1 class="app-title">🎻 CoPlay</h1>
+      <p class="app-subtitle">こどものえんそうかい</p>
+      <div class="home-buttons">
+        <button class="home-btn btn-sound" id="btn-go-soundboard" aria-label="おとをならそう">
+          <span class="btn-icon">🎵</span>
+          <span class="btn-label">おとをならそう！</span>
+        </button>
+        <button class="home-btn btn-light" id="btn-go-shakelight" aria-label="ふって光らせよう">
+          <span class="btn-icon">✨</span>
+          <span class="btn-label">ふって光らせよう！</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- サウンドボード画面 -->
+  <div id="screen-soundboard" class="screen">
+    <header class="page-header">
+      <button class="back-btn" id="btn-back-soundboard" aria-label="もどる">◀ もどる</button>
+      <h2 class="page-title">🎵 おとをならそう！</h2>
+    </header>
+    <div class="soundboard-grid" id="soundboard-grid"></div>
+    <div class="soundboard-footer">
+      <button class="add-btn" id="btn-add-sound" aria-label="おとをついか">
+        ＋ おとをついか
+      </button>
+    </div>
+  </div>
+
+  <!-- 録音画面 -->
+  <div id="screen-record" class="screen">
+    <header class="page-header">
+      <button class="back-btn" id="btn-back-record" aria-label="もどる">◀ もどる</button>
+      <h2 class="page-title">🎤 おとをろくおん</h2>
+    </header>
+    <div class="record-content">
+      <div class="record-step">
+        <p class="step-label">① アイコンをえらんでね</p>
+        <div class="icon-picker" id="icon-picker"></div>
+      </div>
+      <div class="record-step">
+        <p class="step-label">② なまえをいれてね</p>
+        <input type="text" id="sound-name-input" class="name-input" maxlength="8" placeholder="れい：たいこ">
+      </div>
+      <div class="record-step">
+        <p class="step-label">③ ろくおんしよう（さいだい10びょう）</p>
+        <div class="record-controls">
+          <button class="rec-btn" id="btn-rec-start" aria-label="ろくおんスタート">
+            🔴 ろくおんスタート
+          </button>
+          <button class="rec-btn hidden" id="btn-rec-stop" aria-label="とめる">
+            ⏹ とめる
+          </button>
+        </div>
+        <div class="record-timer hidden" id="record-timer">0.0びょう</div>
+        <button class="play-btn hidden" id="btn-rec-play" aria-label="さいせい">
+          ▶ さいせい
+        </button>
+      </div>
+      <button class="decide-btn hidden" id="btn-rec-decide" aria-label="このおとでけってい">
+        🎉 このおとでけってい！
+      </button>
+    </div>
+  </div>
+
+  <!-- 発光画面 -->
+  <div id="screen-shakelight" class="screen">
+    <header class="page-header">
+      <button class="back-btn" id="btn-back-shakelight" aria-label="もどる">◀ もどる</button>
+      <h2 class="page-title">✨ ふって光らせよう！</h2>
+    </header>
+    <div class="shakelight-content">
+      <p class="color-label">いろをえらんでね</p>
+      <div class="color-picker" id="color-picker"></div>
+
+      <div class="shake-instruction">
+        <p id="shake-status-text">スマホをふると光るよ！</p>
+      </div>
+
+      <button class="tap-light-btn" id="btn-tap-light" aria-label="タップして光らせる">
+        タップして光らせる
+      </button>
+
+      <div class="sfx-toggle">
+        <label class="toggle-label">
+          <input type="checkbox" id="sfx-toggle" checked>
+          <span class="toggle-text">こうかおん ON</span>
+        </label>
+      </div>
+
+      <!-- iOS DeviceMotion 許可ボタン -->
+      <button class="permission-btn hidden" id="btn-request-motion" aria-label="センサーをゆるす">
+        📳 センサーをゆるす
+      </button>
+    </div>
+  </div>
+
+  <!-- 発光オーバーレイ -->
+  <div id="flash-overlay" class="flash-overlay" aria-hidden="true"></div>
+
+  <!-- 長押しメニュー -->
+  <div id="longpress-menu" class="longpress-menu hidden" role="dialog" aria-modal="true">
+    <button id="btn-rename" class="menu-item">✏️ なまえをかえる</button>
+    <button id="btn-delete" class="menu-item danger">🗑 けす</button>
+    <button id="btn-menu-cancel" class="menu-item cancel">キャンセル</button>
+  </div>
+  <div id="menu-backdrop" class="menu-backdrop hidden"></div>
+
+  <!-- 削除確認ダイアログ -->
+  <div id="confirm-dialog" class="dialog hidden" role="alertdialog" aria-modal="true">
+    <p class="dialog-msg">ほんとうにけしますか？</p>
+    <div class="dialog-buttons">
+      <button id="btn-confirm-yes" class="dialog-btn yes">けす</button>
+      <button id="btn-confirm-no" class="dialog-btn no">やめる</button>
+    </div>
+  </div>
+  <div id="dialog-backdrop" class="menu-backdrop hidden"></div>
+
+  <!-- リネームダイアログ -->
+  <div id="rename-dialog" class="dialog hidden" role="dialog" aria-modal="true">
+    <p class="dialog-msg">あたらしいなまえ</p>
+    <input type="text" id="rename-input" class="name-input" maxlength="8">
+    <div class="dialog-buttons">
+      <button id="btn-rename-ok" class="dialog-btn yes">けってい</button>
+      <button id="btn-rename-cancel" class="dialog-btn no">キャンセル</button>
+    </div>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/sounds.js"></script>
+  <script src="js/soundboard.js"></script>
+  <script src="js/shakelight.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

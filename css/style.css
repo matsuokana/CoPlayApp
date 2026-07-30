@@ -1,0 +1,357 @@
+/* ===== リセット・ベース ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:    #0d1b3e;
+  --navy2:   #1a2d5a;
+  --gold:    #c9a84c;
+  --gold2:   #f0d070;
+  --crimson: #8b1a2a;
+  --cream:   #fdf6e3;
+  --text:    #f5e6c8;
+  --shadow:  rgba(0,0,0,0.6);
+  --radius:  16px;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Georgia', serif;
+  background: var(--navy);
+  color: var(--text);
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+/* ===== 画面管理 ===== */
+.screen {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+}
+.screen.active {
+  opacity: 1; pointer-events: all;
+}
+
+/* ===== ホーム画面 ===== */
+#screen-home { overflow: hidden; }
+
+.home-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, #1e3570 0%, #0a1530 60%, #050a18 100%);
+  overflow: hidden;
+}
+
+.curtain {
+  position: absolute; top: 0; bottom: 0;
+  width: 38%;
+  background: linear-gradient(90deg, #6b0f1a 0%, #8b1a2a 40%, #5a0d18 100%);
+  box-shadow: inset -8px 0 20px rgba(0,0,0,0.5);
+}
+.curtain::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px, transparent 30px,
+    rgba(0,0,0,0.15) 30px, rgba(0,0,0,0.15) 32px
+  );
+}
+.curtain-left  { left: 0;  border-radius: 0 0 40% 0; }
+.curtain-right { right: 0; border-radius: 0 0 0 40%;
+  background: linear-gradient(270deg, #6b0f1a 0%, #8b1a2a 40%, #5a0d18 100%); }
+
+.stage-light {
+  position: absolute; top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 300px; height: 400px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.25) 0%, transparent 70%);
+}
+
+.home-content {
+  position: relative; z-index: 1;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 24px 48px;
+  gap: 16px;
+}
+
+.app-title {
+  font-size: 2.8rem; font-weight: bold;
+  color: var(--gold2);
+  text-shadow: 0 0 20px rgba(201,168,76,0.8), 0 2px 4px rgba(0,0,0,0.8);
+  letter-spacing: 0.05em;
+}
+.app-subtitle {
+  font-size: 1rem; color: var(--cream);
+  opacity: 0.85; letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.home-buttons { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 320px; }
+
+.home-btn {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px; border: none; border-radius: var(--radius);
+  cursor: pointer; font-family: inherit; font-size: 1.3rem;
+  font-weight: bold; letter-spacing: 0.05em;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: transform 0.1s, box-shadow 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.home-btn:active { transform: scale(0.96); box-shadow: 0 2px 8px var(--shadow); }
+
+.btn-sound {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2d4fa8 100%);
+  border: 2px solid var(--gold);
+  color: var(--gold2);
+}
+.btn-light {
+  background: linear-gradient(135deg, #5a0d18 0%, #8b1a2a 100%);
+  border: 2px solid var(--gold);
+  color: var(--gold2);
+}
+.btn-icon { font-size: 2rem; }
+.btn-label { font-size: 1.2rem; }
+
+/* ===== 共通ヘッダー ===== */
+.page-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px 10px;
+  background: linear-gradient(180deg, #0d1b3e 0%, #1a2d5a 100%);
+  border-bottom: 2px solid var(--gold);
+  flex-shrink: 0;
+}
+.back-btn {
+  background: none; border: 1.5px solid var(--gold);
+  color: var(--gold2); border-radius: 8px;
+  padding: 6px 12px; font-family: inherit; font-size: 0.95rem;
+  cursor: pointer; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.page-title {
+  font-size: 1.2rem; color: var(--gold2);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  flex: 1; text-align: center;
+}
+
+/* ===== サウンドボード ===== */
+#screen-soundboard {
+  background: linear-gradient(180deg, #0d1b3e 0%, #0a1428 100%);
+}
+.soundboard-grid {
+  flex: 1; overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px; padding: 16px;
+  align-content: start;
+}
+.sound-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; padding: 16px 8px;
+  background: linear-gradient(145deg, #1e3570 0%, #162a56 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius); cursor: pointer;
+  min-height: 90px; font-family: inherit;
+  color: var(--cream); box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none; -webkit-user-select: none;
+}
+.sound-btn:active, .sound-btn.playing {
+  transform: scale(0.94);
+  background: linear-gradient(145deg, #2a4a8a 0%, #1e3570 100%);
+  box-shadow: 0 0 16px rgba(201,168,76,0.5), inset 0 0 8px rgba(201,168,76,0.2);
+  border-color: var(--gold2);
+}
+.sound-btn .s-icon { font-size: 2rem; }
+.sound-btn .s-name { font-size: 0.78rem; color: var(--gold2); font-weight: bold; text-align: center; word-break: break-all; }
+
+.soundboard-footer {
+  padding: 12px 16px 20px; flex-shrink: 0;
+  background: linear-gradient(0deg, #0a1428 0%, transparent 100%);
+}
+.add-btn {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #3a2000 0%, #5a3500 100%);
+  border: 2px dashed var(--gold); border-radius: var(--radius);
+  color: var(--gold2); font-family: inherit; font-size: 1.1rem;
+  cursor: pointer; font-weight: bold;
+  -webkit-tap-highlight-color: transparent;
+}
+.add-btn:active { opacity: 0.8; }
+
+/* ===== 録音画面 ===== */
+#screen-record {
+  background: linear-gradient(180deg, #0d1b3e 0%, #0a1428 100%);
+  overflow-y: auto;
+}
+.record-content { padding: 20px 16px 40px; display: flex; flex-direction: column; gap: 24px; }
+.record-step { display: flex; flex-direction: column; gap: 12px; }
+.step-label { font-size: 1rem; color: var(--gold2); font-weight: bold; }
+
+.icon-picker {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.icon-option {
+  width: 56px; height: 56px; font-size: 1.8rem;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid transparent; border-radius: 12px;
+  cursor: pointer; background: rgba(255,255,255,0.07);
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.icon-option.selected {
+  border-color: var(--gold); background: rgba(201,168,76,0.2);
+}
+
+.name-input {
+  padding: 12px 16px; border-radius: 10px;
+  background: rgba(255,255,255,0.1); border: 1.5px solid var(--gold);
+  color: var(--cream); font-family: inherit; font-size: 1.2rem;
+  outline: none; width: 100%;
+}
+.name-input:focus { border-color: var(--gold2); background: rgba(255,255,255,0.14); }
+
+.record-controls { display: flex; gap: 12px; flex-wrap: wrap; }
+.rec-btn {
+  flex: 1; padding: 16px; border: none; border-radius: 12px;
+  font-family: inherit; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#btn-rec-start { background: #c0392b; color: white; }
+#btn-rec-stop  { background: #555;    color: white; }
+.play-btn {
+  padding: 14px 24px; border-radius: 12px;
+  background: linear-gradient(135deg, #1e3570, #2d4fa8);
+  border: 1.5px solid var(--gold); color: var(--gold2);
+  font-family: inherit; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.decide-btn {
+  padding: 18px; border: none; border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 100%);
+  color: #1a1000; font-family: inherit; font-size: 1.2rem; font-weight: bold;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+  -webkit-tap-highlight-color: transparent;
+}
+.record-timer {
+  font-size: 1.4rem; color: #ff6b6b; font-weight: bold;
+  text-align: center; letter-spacing: 0.05em;
+}
+
+/* ===== 発光画面 ===== */
+#screen-shakelight {
+  background: linear-gradient(180deg, #0d1b3e 0%, #0a1428 100%);
+}
+.shakelight-content {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; padding: 24px 16px 40px; gap: 24px;
+  overflow-y: auto;
+}
+.color-label { font-size: 1.1rem; color: var(--gold2); font-weight: bold; }
+.color-picker {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; width: 100%; max-width: 320px;
+}
+.color-option {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 50%; border: 3px solid rgba(255,255,255,0.2);
+  cursor: pointer; transition: transform 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 60px; min-height: 60px;
+}
+.color-option.selected {
+  border-color: var(--gold2);
+  transform: scale(1.18);
+  box-shadow: 0 0 16px rgba(201,168,76,0.7);
+}
+.color-name {
+  font-size: 0.7rem; text-align: center; margin-top: 4px; color: var(--cream);
+}
+.color-item { display: flex; flex-direction: column; align-items: center; }
+
+.shake-instruction {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius);
+  width: 100%; max-width: 320px;
+}
+#shake-status-text { font-size: 1.1rem; color: var(--cream); line-height: 1.6; }
+
+.tap-light-btn {
+  padding: 16px 32px; border: none; border-radius: var(--radius);
+  background: linear-gradient(135deg, #5a0d18, #8b1a2a);
+  border: 2px solid var(--gold);
+  color: var(--gold2); font-family: inherit; font-size: 1.1rem; font-weight: bold;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.tap-light-btn:active { opacity: 0.8; transform: scale(0.97); }
+
+.sfx-toggle { display: flex; align-items: center; }
+.toggle-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1rem; color: var(--cream); }
+.permission-btn {
+  padding: 14px 24px; border: 2px solid #ff9900; border-radius: var(--radius);
+  background: rgba(255,153,0,0.15); color: #ffd080;
+  font-family: inherit; font-size: 1rem; cursor: pointer;
+}
+
+/* ===== 発光オーバーレイ ===== */
+.flash-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.1s ease;
+}
+.flash-overlay.visible { opacity: 1; pointer-events: all; }
+
+/* ===== 長押しメニュー ===== */
+.menu-backdrop {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(0,0,0,0.6);
+}
+.longpress-menu {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 950;
+  background: #1a2d5a;
+  border-top: 2px solid var(--gold);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0 env(safe-area-inset-bottom, 16px);
+  display: flex; flex-direction: column;
+}
+.menu-item {
+  padding: 18px 24px; background: none; border: none;
+  color: var(--cream); font-family: inherit; font-size: 1.1rem;
+  text-align: left; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item.danger  { color: #ff6b6b; }
+.menu-item.cancel  { color: rgba(255,255,255,0.5); text-align: center; }
+.menu-item:active  { background: rgba(255,255,255,0.08); }
+
+/* ===== ダイアログ ===== */
+.dialog {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  z-index: 960; background: #1a2d5a;
+  border: 2px solid var(--gold); border-radius: var(--radius);
+  padding: 24px; width: 88%; max-width: 320px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.dialog-msg { font-size: 1.15rem; text-align: center; color: var(--cream); }
+.dialog-buttons { display: flex; gap: 12px; }
+.dialog-btn {
+  flex: 1; padding: 14px; border: none; border-radius: 10px;
+  font-family: inherit; font-size: 1rem; font-weight: bold; cursor: pointer;
+}
+.dialog-btn.yes { background: #c0392b; color: white; }
+.dialog-btn.no  { background: rgba(255,255,255,0.15); color: var(--cream); }
+
+/* ===== ユーティリティ ===== */
+.hidden { display: none !important; }
+
+/* ===== スクロールバー ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }

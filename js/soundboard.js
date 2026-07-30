@@ -125,12 +125,18 @@ function openMenu(s) {
 function closeMenu() {
   document.getElementById('longpress-menu').classList.add('hidden');
   document.getElementById('menu-backdrop').classList.add('hidden');
-  _editTarget = null;
+  // _editTarget はここでリセットしない（削除・リネームで使うため）
 }
 
 function bindMenuEvents() {
-  document.getElementById('menu-backdrop').addEventListener('click', closeMenu);
-  document.getElementById('btn-menu-cancel').addEventListener('click', closeMenu);
+  document.getElementById('menu-backdrop').addEventListener('click', () => {
+    closeMenu();
+    _editTarget = null;
+  });
+  document.getElementById('btn-menu-cancel').addEventListener('click', () => {
+    closeMenu();
+    _editTarget = null;
+  });
 
   document.getElementById('btn-delete').addEventListener('click', () => {
     closeMenu();
@@ -138,8 +144,10 @@ function bindMenuEvents() {
   });
 
   document.getElementById('btn-rename').addEventListener('click', () => {
+    if (!_editTarget) return;
+    const name = _editTarget.name;
     closeMenu();
-    document.getElementById('rename-input').value = _editTarget.name;
+    document.getElementById('rename-input').value = name;
     document.getElementById('rename-dialog').classList.remove('hidden');
     document.getElementById('dialog-backdrop').classList.remove('hidden');
     document.getElementById('rename-input').focus();
@@ -151,7 +159,6 @@ function bindMenuEvents() {
     if (!_editTarget) { closeConfirm(); return; }
     await deleteUserSound(_editTarget.id);
     _allSounds = _allSounds.filter(s => s.id !== _editTarget.id);
-    _editTarget = null;
     closeConfirm();
     renderGrid();
   });
@@ -159,22 +166,23 @@ function bindMenuEvents() {
   document.getElementById('btn-rename-cancel').addEventListener('click', () => {
     document.getElementById('rename-dialog').classList.add('hidden');
     document.getElementById('dialog-backdrop').classList.add('hidden');
+    _editTarget = null;
   });
   document.getElementById('btn-rename-ok').addEventListener('click', async () => {
     const newName = document.getElementById('rename-input').value.trim();
     if (!newName || !_editTarget) return;
-    const rec = await (async () => {
-      const db  = await openDB();
-      const tx  = db.transaction('sounds', 'readonly');
-      const req = tx.objectStore('sounds').get(_editTarget.id);
-      return new Promise(r => { req.onsuccess = e => r(e.target.result); });
-    })();
-    if (rec) { rec.name = newName; await saveUserSound(rec); }
+    const db  = await openDB();
+    const tx  = db.transaction('sounds', 'readwrite');
+    const req = tx.objectStore('sounds').get(_editTarget.id);
+    req.onsuccess = async e => {
+      const rec = e.target.result;
+      if (rec) { rec.name = newName; await saveUserSound(rec); }
+    };
     const idx = _allSounds.findIndex(s => s.id === _editTarget.id);
     if (idx >= 0) _allSounds[idx].name = newName;
-    _editTarget = null;
     document.getElementById('rename-dialog').classList.add('hidden');
     document.getElementById('dialog-backdrop').classList.add('hidden');
+    _editTarget = null;
     renderGrid();
   });
 }

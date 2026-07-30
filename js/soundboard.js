@@ -149,40 +149,42 @@ function bindMenuEvents() {
     closeMenu();
     document.getElementById('rename-input').value = name;
     document.getElementById('rename-dialog').classList.remove('hidden');
-    document.getElementById('dialog-backdrop').classList.remove('hidden');
+    document.getElementById('rename-backdrop').classList.remove('hidden');
     document.getElementById('rename-input').focus();
   });
 
+  // 削除確認
   document.getElementById('btn-confirm-no').addEventListener('click', closeConfirm);
   document.getElementById('dialog-backdrop').addEventListener('click', closeConfirm);
   document.getElementById('btn-confirm-yes').addEventListener('click', async () => {
     if (!_editTarget) { closeConfirm(); return; }
-    await deleteUserSound(_editTarget.id);
-    _allSounds = _allSounds.filter(s => s.id !== _editTarget.id);
-    closeConfirm();
+    const id = _editTarget.id;
+    closeConfirm(); // _editTarget を null にしてから削除
+    await deleteUserSound(id);
+    _allSounds = _allSounds.filter(s => s.id !== id);
     renderGrid();
   });
 
-  document.getElementById('btn-rename-cancel').addEventListener('click', () => {
-    document.getElementById('rename-dialog').classList.add('hidden');
-    document.getElementById('dialog-backdrop').classList.add('hidden');
-    _editTarget = null;
-  });
+  // リネーム
+  document.getElementById('btn-rename-cancel').addEventListener('click', closeRename);
+  document.getElementById('rename-backdrop').addEventListener('click', closeRename);
   document.getElementById('btn-rename-ok').addEventListener('click', async () => {
     const newName = document.getElementById('rename-input').value.trim();
     if (!newName || !_editTarget) return;
+    const id = _editTarget.id;
+    closeRename();
+    // IndexedDB を更新
     const db  = await openDB();
     const tx  = db.transaction('sounds', 'readwrite');
-    const req = tx.objectStore('sounds').get(_editTarget.id);
-    req.onsuccess = async e => {
+    const store = tx.objectStore('sounds');
+    const req = store.get(id);
+    req.onsuccess = e => {
       const rec = e.target.result;
-      if (rec) { rec.name = newName; await saveUserSound(rec); }
+      if (rec) { rec.name = newName; store.put(rec); }
     };
-    const idx = _allSounds.findIndex(s => s.id === _editTarget.id);
+    // メモリ上のリストを更新
+    const idx = _allSounds.findIndex(s => s.id === id);
     if (idx >= 0) _allSounds[idx].name = newName;
-    document.getElementById('rename-dialog').classList.add('hidden');
-    document.getElementById('dialog-backdrop').classList.add('hidden');
-    _editTarget = null;
     renderGrid();
   });
 }
@@ -194,6 +196,11 @@ function openConfirm() {
 function closeConfirm() {
   document.getElementById('confirm-dialog').classList.add('hidden');
   document.getElementById('dialog-backdrop').classList.add('hidden');
+  _editTarget = null;
+}
+function closeRename() {
+  document.getElementById('rename-dialog').classList.add('hidden');
+  document.getElementById('rename-backdrop').classList.add('hidden');
   _editTarget = null;
 }
 

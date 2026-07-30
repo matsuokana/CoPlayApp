@@ -18,6 +18,10 @@
     <div class="home-content">
       <h1 class="app-title">🎻 CoPlay</h1>
       <p class="app-subtitle">こどものえんそうかい</p>
+      <!-- iOS センサー許可ボタン（iOS13+のみ表示） -->
+      <button class="permission-btn hidden" id="btn-request-motion" aria-label="センサーをゆるす">
+        📳 センサーをゆるす
+      </button>
       <div class="home-buttons">
         <button class="home-btn btn-sound" id="btn-go-soundboard" aria-label="おとをならそう">
           <span class="btn-icon">🎵</span>
@@ -105,11 +109,6 @@
           <span class="toggle-text">こうかおん ON</span>
         </label>
       </div>
-
-      <!-- iOS DeviceMotion 許可ボタン -->
-      <button class="permission-btn hidden" id="btn-request-motion" aria-label="センサーをゆるす">
-        📳 センサーをゆるす
-      </button>
     </div>
   </div>
 

@@ -304,6 +304,7 @@ html, body {
   padding: 14px 24px; border: 2px solid #ff9900; border-radius: var(--radius);
   background: rgba(255,153,0,0.15); color: #ffd080;
   font-family: inherit; font-size: 1rem; cursor: pointer;
+  width: 100%; max-width: 320px; margin-bottom: 8px;
 }
 
 /* ===== 発光オーバーレイ ===== */

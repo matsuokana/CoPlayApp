@@ -28,7 +28,7 @@ function renderColorPicker() {
   const picker = document.getElementById('color-picker');
   picker.innerHTML = '';
   COLORS.forEach(c => {
-    const item  = document.createElement('div');
+    const item   = document.createElement('div');
     item.className = 'color-item';
 
     const circle = document.createElement('div');
@@ -55,7 +55,6 @@ function selectColor(hex) {
   });
 }
 
-// CSS background を比較するためにhex→rgb変換
 function hexToRgb(hex) {
   const r = parseInt(hex.slice(1,3),16);
   const g = parseInt(hex.slice(3,5),16);
@@ -70,22 +69,20 @@ function bindShakelightUI() {
     saveSettings('sfx', e.target.checked);
   });
   document.getElementById('sfx-toggle').checked = loadSettings('sfx', true);
-
-  document.getElementById('btn-request-motion').addEventListener('click', requestMotionPermission);
 }
 
 // ===== DeviceMotion =====
 function setupMotion() {
   if (typeof DeviceMotionEvent === 'undefined') {
-    showTapOnly('このきのうはつかえません（センサーがありません）');
+    // センサー非対応端末：ボタンを隠したまま
     return;
   }
 
-  // iOS 13+ 許可が必要
+  // iOS 13+ は許可が必要 → ホームのボタンを表示
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    document.getElementById('btn-request-motion').classList.remove('hidden');
-    document.getElementById('shake-status-text').textContent =
-      '「センサーをゆるす」をおしてね！';
+    const btn = document.getElementById('btn-request-motion');
+    btn.classList.remove('hidden');
+    btn.addEventListener('click', requestMotionPermission);
     return;
   }
 
@@ -99,12 +96,11 @@ async function requestMotionPermission() {
     if (res === 'granted') {
       enableMotionListener();
       document.getElementById('btn-request-motion').classList.add('hidden');
-      document.getElementById('shake-status-text').textContent = 'スマホをふると光るよ！';
     } else {
-      showTapOnly('センサーをゆるしてもらえませんでした。\nタップでも光らせられるよ！');
+      alert('センサーをゆるしてもらえませんでした。\nタップでも光らせられるよ！');
     }
   } catch (e) {
-    showTapOnly('センサーをつかえませんでした。\nタップでも光らせられるよ！');
+    alert('センサーをつかえませんでした。\nタップでも光らせられるよ！');
   }
 }
 
@@ -121,19 +117,13 @@ function onDeviceMotion(e) {
   const now   = Date.now();
   if (total > SHAKE_THRESHOLD && now - _lastShake > COOLDOWN_MS) {
     _lastShake = now;
-    const active = document.querySelector('.screen.active');
-    const screenId = active ? active.id : '';
-    if (screenId === 'screen-shakelight') {
+    const activeId = document.querySelector('.screen.active')?.id || '';
+    if (activeId === 'screen-shakelight') {
       triggerFlash();
-    } else if (screenId === 'screen-soundboard') {
+    } else if (activeId === 'screen-soundboard') {
       playSelectedSoundOnShake();
     }
-    // それ以外の画面では何もしない
   }
-}
-
-function showTapOnly(msg) {
-  document.getElementById('shake-status-text').textContent = msg;
 }
 
 // ===== 発光 =====
@@ -141,9 +131,6 @@ function triggerFlash() {
   const overlay = document.getElementById('flash-overlay');
   overlay.style.background = _selectedColor;
   overlay.classList.add('visible');
-
   if (loadSettings('sfx', true)) playSparkle();
-
-  // フェードアウト
   setTimeout(() => { overlay.classList.remove('visible'); }, 400);
 }

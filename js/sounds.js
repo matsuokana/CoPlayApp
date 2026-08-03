@@ -128,8 +128,37 @@ const synths = {
   },
 
   タンバリン(ctx) {
-    playNoise(ctx, 0.15, 0.7, 5000);
-    [3200, 4200, 5000].forEach(f => playTone(ctx, f, 'sine', 0.5, 0.08, 0.003));
+    // 手で叩く打撃音（低めのノイズバースト）
+    const hit = ctx.createBufferSource();
+    hit.buffer = noiseBuffer(ctx, 0.08);
+    const hitFilt = ctx.createBiquadFilter();
+    hitFilt.type = 'bandpass';
+    hitFilt.frequency.value = 800;
+    hitFilt.Q.value = 1.5;
+    const hitG = ctx.createGain();
+    hitG.gain.setValueAtTime(1.0, ctx.currentTime);
+    hitG.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+    hit.connect(hitFilt); hitFilt.connect(hitG); hitG.connect(ctx.destination);
+    hit.start();
+
+    // ジングル（複数の短い金属音を時間差で）
+    const jingleFreqs = [6000, 7200, 8500, 9800];
+    jingleFreqs.forEach((f, i) => {
+      [0, 40, 80].forEach(delay => {
+        const src = ctx.createBufferSource();
+        src.buffer = noiseBuffer(ctx, 0.18);
+        const filt = ctx.createBiquadFilter();
+        filt.type = 'bandpass';
+        filt.frequency.value = f;
+        filt.Q.value = 8;
+        const g = ctx.createGain();
+        const t = ctx.currentTime + delay / 1000;
+        g.gain.setValueAtTime(0.18, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+        src.connect(filt); filt.connect(g); g.connect(ctx.destination);
+        src.start(t);
+      });
+    });
   },
 
   トライアングル(ctx) {

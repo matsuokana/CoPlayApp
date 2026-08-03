@@ -26,8 +26,15 @@ function bindNavigation() {
     showScreen('soundboard');
   });
 
-  // ホーム → 発光
-  document.getElementById('btn-go-shakelight').addEventListener('click', () => {
+  // ホーム → 発光（iOS未許可なら許可を求めてから遷移）
+  document.getElementById('btn-go-shakelight').addEventListener('click', async () => {
+    if (
+      typeof DeviceMotionEvent !== 'undefined' &&
+      typeof DeviceMotionEvent.requestPermission === 'function' &&
+      !_motionEnabled
+    ) {
+      await requestMotionPermission();
+    }
     showScreen('shakelight');
   });
 

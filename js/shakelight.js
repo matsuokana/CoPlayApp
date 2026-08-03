@@ -68,22 +68,13 @@ function bindShakelightUI() {
 
 // ===== DeviceMotion =====
 function setupMotion() {
-  if (typeof DeviceMotionEvent === 'undefined') {
-    return;
-  }
+  if (typeof DeviceMotionEvent === 'undefined') return;
 
-  // iOS 13+ は許可が必要 → ホームのボタンを表示して1回だけリスナー登録
-  if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    const btn = document.getElementById('btn-request-motion');
-    if (btn) {
-      btn.classList.remove('hidden');
-      btn.addEventListener('click', requestMotionPermission);
-    }
-    return;
+  // iOS 13+ 以外はそのまま登録
+  if (typeof DeviceMotionEvent.requestPermission !== 'function') {
+    enableMotionListener();
   }
-
-  // Android・その他はそのまま登録
-  enableMotionListener();
+  // iOS は「ふって光らせよう！」ボタン押下時に main.js から requestMotionPermission() を呼ぶ
 }
 
 async function requestMotionPermission() {

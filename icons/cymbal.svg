@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- シンバル：2枚重ね -->
+  <ellipse cx="40" cy="46" rx="28" ry="8" fill="#B8860B" stroke="#8B6500" stroke-width="2"/>
+  <ellipse cx="40" cy="46" rx="28" ry="8" fill="none" stroke="#DAA520" stroke-width="1" rx="28" ry="5"/>
+  <ellipse cx="40" cy="40" rx="28" ry="8" fill="#DAA520" stroke="#B8860B" stroke-width="2"/>
+  <ellipse cx="40" cy="40" rx="10" ry="4" fill="#C9A84C"/>
+  <circle cx="40" cy="40" r="4" fill="#8B6500"/>
+  <!-- スタンド -->
+  <line x1="40" y1="48" x2="40" y2="68" stroke="#888" stroke-width="3"/>
+  <line x1="28" y1="68" x2="52" y2="68" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+  <!-- 輝き -->
+  <ellipse cx="30" cy="37" rx="5" ry="2" fill="#FFF" opacity="0.3" transform="rotate(-20 30 37)"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- トライアングル -->
+  <path d="M40 12 L68 62 L12 62 Z"
+        fill="none" stroke="#DAA520" stroke-width="6"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 開いている部分（右側） -->
+  <line x1="68" y1="62" x2="58" y2="62" stroke="#1a2d5a" stroke-width="7"/>
+  <!-- バチ -->
+  <line x1="52" y1="20" x2="66" y2="10" stroke="#C0C0C0" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="66" cy="10" r="3" fill="#A0A0A0"/>
+  <!-- 輝き -->
+  <path d="M26 56 L34 42" stroke="#FFE860" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <!-- 音の波紋 -->
+  <path d="M10 30 Q6 38 10 46" stroke="#DAA520" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <path d="M6 26 Q0 38 6 50" stroke="#DAA520" stroke-width="1.5" fill="none" opacity="0.3" stroke-linecap="round"/>
+</svg>

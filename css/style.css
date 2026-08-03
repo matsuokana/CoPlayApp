@@ -172,6 +172,7 @@ html, body {
 }
 .sound-btn.selected-sound .s-name { color: var(--gold2); }
 .sound-btn .s-icon { font-size: 2rem; }
+.sound-btn .s-icon-svg { width: 48px; height: 48px; object-fit: contain; }
 .sound-btn .s-name { font-size: 0.78rem; color: var(--gold2); font-weight: bold; text-align: center; word-break: break-all; }
 
 .soundboard-footer {

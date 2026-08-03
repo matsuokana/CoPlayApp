@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- カッコウ笛：小鳥の形をした木製笛 -->
+  <rect x="20" y="38" width="40" height="18" rx="9" fill="#8B5E3C" stroke="#5C3A1E" stroke-width="2"/>
+  <circle cx="56" cy="34" r="10" fill="#6B8E23" stroke="#4A6318" stroke-width="1.5"/>
+  <circle cx="60" cy="30" r="3" fill="#2F4A0A"/>
+  <ellipse cx="56" cy="44" rx="4" ry="2.5" fill="#5C3A1E"/>
+  <ellipse cx="50" cy="56" rx="6" ry="3" fill="#A0522D" stroke="#5C3A1E" stroke-width="1"/>
+  <ellipse cx="62" cy="56" rx="6" ry="3" fill="#A0522D" stroke="#5C3A1E" stroke-width="1"/>
+  <rect x="14" y="43" width="8" height="4" rx="2" fill="#C8A26B"/>
+  <circle cx="36" cy="47" r="2" fill="#5C3A1E"/>
+  <circle cx="44" cy="47" r="2" fill="#5C3A1E"/>
+</svg>

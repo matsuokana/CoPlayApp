@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- ナイチンゲール笛：細長い笛に音符 -->
+  <rect x="12" y="36" width="52" height="10" rx="5" fill="#8B5E3C" stroke="#5C3A1E" stroke-width="2"/>
+  <rect x="10" y="37" width="10" height="8" rx="3" fill="#C8A26B" stroke="#8B6914" stroke-width="1.5"/>
+  <circle cx="28" cy="41" r="2" fill="#5C3A1E"/>
+  <circle cx="36" cy="41" r="2" fill="#5C3A1E"/>
+  <circle cx="44" cy="41" r="2" fill="#5C3A1E"/>
+  <circle cx="52" cy="41" r="2" fill="#5C3A1E"/>
+  <!-- 音符 -->
+  <circle cx="58" cy="24" r="4" fill="#C9A84C"/>
+  <rect x="61.5" y="11" width="2.5" height="14" fill="#C9A84C"/>
+  <path d="M64 11 Q72 14 68 20" stroke="#C9A84C" stroke-width="2" fill="none"/>
+  <circle cx="42" cy="20" r="3.5" fill="#C9A84C"/>
+  <rect x="45" y="9" width="2" height="12" fill="#C9A84C"/>
+</svg>

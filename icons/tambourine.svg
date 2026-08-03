@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- タンバリン：丸い枠＋ジングル -->
+  <circle cx="40" cy="42" r="24" fill="none" stroke="#8B4513" stroke-width="8"/>
+  <circle cx="40" cy="42" r="20" fill="#F4A460" opacity="0.3"/>
+  <!-- 皮 -->
+  <circle cx="40" cy="42" r="16" fill="#F5DEB3" stroke="#DEB887" stroke-width="1.5"/>
+  <!-- ジングル（小さな金属板） -->
+  <ellipse cx="40" cy="18" rx="5" ry="3" fill="#DAA520" stroke="#B8860B" stroke-width="1"/>
+  <ellipse cx="59" cy="27" rx="5" ry="3" fill="#DAA520" stroke="#B8860B" stroke-width="1" transform="rotate(60 59 27)"/>
+  <ellipse cx="64" cy="48" rx="5" ry="3" fill="#DAA520" stroke="#B8860B" stroke-width="1" transform="rotate(90 64 48)"/>
+  <ellipse cx="54" cy="64" rx="5" ry="3" fill="#DAA520" stroke="#B8860B" stroke-width="1" transform="rotate(130 54 64)"/>
+  <ellipse cx="26" cy="64" rx="5" ry="3" fill="#DAA520" stroke="#B8860B" stroke-width="1" transform="rotate(-130 26 64)"/>
+  <ellipse cx="16" cy="48" rx="5" ry="3" fill="#DAA520" stroke="#B8860B" stroke-width="1" transform="rotate(-90 16 48)"/>
+  <!-- 持ち手の模様 -->
+  <path d="M28 26 Q40 34 52 26" stroke="#8B4513" stroke-width="1.5" fill="none" opacity="0.4"/>
+</svg>

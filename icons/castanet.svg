@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- カスタネット：2枚の貝殻型 -->
+  <ellipse cx="27" cy="42" rx="16" ry="10" fill="#8B2020" stroke="#5C1010" stroke-width="2"/>
+  <ellipse cx="27" cy="36" rx="16" ry="6" fill="#B83030" stroke="#5C1010" stroke-width="1.5"/>
+  <ellipse cx="53" cy="42" rx="16" ry="10" fill="#8B2020" stroke="#5C1010" stroke-width="2"/>
+  <ellipse cx="53" cy="36" rx="16" ry="6" fill="#B83030" stroke="#5C1010" stroke-width="1.5"/>
+  <!-- 紐 -->
+  <path d="M27 28 Q40 18 53 28" stroke="#C9A84C" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- 木目 -->
+  <path d="M16 40 Q27 44 38 40" stroke="#5C1010" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M42 40 Q53 44 64 40" stroke="#5C1010" stroke-width="1" fill="none" opacity="0.5"/>
+</svg>

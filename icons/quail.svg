@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- ウズラ笛：丸みのある短い笛 -->
+  <ellipse cx="40" cy="46" rx="22" ry="14" fill="#C8A26B" stroke="#8B6914" stroke-width="2"/>
+  <ellipse cx="40" cy="46" rx="18" ry="10" fill="#E8C87A"/>
+  <rect x="16" y="42" width="10" height="8" rx="4" fill="#B8922B" stroke="#8B6914" stroke-width="1.5"/>
+  <circle cx="32" cy="46" r="2.5" fill="#8B6914"/>
+  <circle cx="40" cy="46" r="2.5" fill="#8B6914"/>
+  <circle cx="48" cy="46" r="2.5" fill="#8B6914"/>
+  <path d="M36 34 Q40 28 44 34" stroke="#8B6914" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="40" cy="28" r="3" fill="#D4A84B"/>
+</svg>

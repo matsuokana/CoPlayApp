@@ -1,17 +1,17 @@
 'use strict';
 
 const DEFAULT_SOUNDS = [
-  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: '🐦',  type: 'default' },
-  { id: 'default_quail',      name: 'ウズラ笛',         icon: '🐤',  type: 'default' },
-  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: '🎶',  type: 'default' },
-  { id: 'default_maraca',     name: 'マラカス',         icon: '🪇',  type: 'default' },
-  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: '🥁',  type: 'default' },
-  { id: 'default_castanet',   name: 'カスタネット',     icon: '👐',  type: 'default' },
-  { id: 'default_boing',      name: 'ぼよよーん',       icon: '🌀',  type: 'default' },
-  { id: 'default_cymbal',     name: 'シンバル',         icon: '🔘',  type: 'default' },
-  { id: 'default_tambourine', name: 'タンバリン',       icon: '🪘',  type: 'default' },
-  { id: 'default_triangle',   name: 'トライアングル',   icon: '🔔',  type: 'default' },
-  { id: 'default_ratchet',    name: 'ラチェット',       icon: '⚙️',  type: 'default' },
+  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      type: 'default' },
+  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       type: 'default' },
+  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', type: 'default' },
+  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      type: 'default' },
+  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     type: 'default' },
+  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    type: 'default' },
+  { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       type: 'default' },
+  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      type: 'default' },
+  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  type: 'default' },
+  { id: 'default_triangle',   name: 'トライアングル',   icon: 'icons/triangle.svg',    type: 'default' },
+  { id: 'default_ratchet',    name: 'ラチェット',       icon: 'icons/ratchet.svg',     type: 'default' },
 ];
 
 const ICON_OPTIONS = [
@@ -45,7 +45,10 @@ function renderGrid() {
     btn.className  = 'sound-btn';
     btn.setAttribute('aria-label', s.name);
     btn.dataset.id = s.id;
-    btn.innerHTML  = `<span class="s-icon">${s.icon}</span><span class="s-name">${s.name}</span>`;
+    const isSvg = s.icon && s.icon.endsWith('.svg');
+    btn.innerHTML = isSvg
+      ? `<img class="s-icon-svg" src="${s.icon}" alt="${s.name}"><span class="s-name">${s.name}</span>`
+      : `<span class="s-icon">${s.icon}</span><span class="s-name">${s.name}</span>`;
 
     // 選択状態の復元
     if (_selectedSound && _selectedSound.id === s.id) {

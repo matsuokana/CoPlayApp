@@ -51,7 +51,6 @@ function playTone(ctx, freq, type, duration, gainVal, attack) {
 const synths = {
 
   'カッコウ笛'(ctx) {
-    // カッコウ：下降2音（ミ→ド）
     const notes = [659, 523];
     notes.forEach((freq, i) => {
       setTimeout(() => playTone(ctx, freq, 'sine', 0.35, 0.45, 0.02), i * 220);
@@ -64,11 +63,6 @@ const synths = {
     notes.forEach((freq, i) => {
       setTimeout(() => playTone(ctx, freq, 'sine', 0.18, 0.4, 0.01), i * 110);
     });
-  },
-
-  トランペット(ctx) {
-    playTone(ctx, 523, 'sawtooth', 0.6, 0.4, 0.03);
-    playTone(ctx, 1046,'sawtooth', 0.4, 0.1, 0.03);
   },
 
   'ナイチンゲール笛'(ctx) {

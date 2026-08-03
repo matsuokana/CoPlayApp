@@ -3,7 +3,6 @@
 const DEFAULT_SOUNDS = [
   { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: '🐦',  type: 'default' },
   { id: 'default_quail',      name: 'ウズラ笛',         icon: '🐤',  type: 'default' },
-  { id: 'default_trumpet',    name: 'トランペット',     icon: '🎺',  type: 'default' },
   { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: '🎶',  type: 'default' },
   { id: 'default_maraca',     name: 'マラカス',         icon: '🪇',  type: 'default' },
   { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: '📯',  type: 'default' },

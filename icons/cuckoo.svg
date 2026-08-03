@@ -1,12 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
-  <!-- カッコウ笛：小鳥の形をした木製笛 -->
-  <rect x="20" y="38" width="40" height="18" rx="9" fill="#8B5E3C" stroke="#5C3A1E" stroke-width="2"/>
-  <circle cx="56" cy="34" r="10" fill="#6B8E23" stroke="#4A6318" stroke-width="1.5"/>
-  <circle cx="60" cy="30" r="3" fill="#2F4A0A"/>
-  <ellipse cx="56" cy="44" rx="4" ry="2.5" fill="#5C3A1E"/>
-  <ellipse cx="50" cy="56" rx="6" ry="3" fill="#A0522D" stroke="#5C3A1E" stroke-width="1"/>
-  <ellipse cx="62" cy="56" rx="6" ry="3" fill="#A0522D" stroke="#5C3A1E" stroke-width="1"/>
-  <rect x="14" y="43" width="8" height="4" rx="2" fill="#C8A26B"/>
-  <circle cx="36" cy="47" r="2" fill="#5C3A1E"/>
-  <circle cx="44" cy="47" r="2" fill="#5C3A1E"/>
+  <!-- カッコウ（灰色の鳥） -->
+  <ellipse cx="28" cy="38" rx="12" ry="9" fill="#888" stroke="#555" stroke-width="1.5"/>
+  <circle cx="37" cy="31" r="7" fill="#888" stroke="#555" stroke-width="1.5"/>
+  <circle cx="40" cy="29" r="2.5" fill="#fff"/>
+  <circle cx="41" cy="28.5" r="1.2" fill="#222"/>
+  <polygon points="44,30 50,29 44,32" fill="#DAA520"/>
+  <path d="M16 42 Q20 50 28 47" stroke="#555" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M28 44 Q24 54 20 58" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M28 44 Q32 54 36 56" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- 笛 -->
+  <rect x="28" y="50" width="36" height="9" rx="4.5" fill="#8B5E3C" stroke="#5C3A1E" stroke-width="1.5"/>
+  <rect x="26" y="51" width="8" height="7" rx="3" fill="#C8A26B" stroke="#8B6914" stroke-width="1"/>
+  <circle cx="42" cy="54" r="1.8" fill="#5C3A1E"/>
+  <circle cx="50" cy="54" r="1.8" fill="#5C3A1E"/>
+  <circle cx="58" cy="54" r="1.8" fill="#5C3A1E"/>
 </svg>

@@ -1,15 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
-  <!-- ナイチンゲール笛：細長い笛に音符 -->
-  <rect x="12" y="36" width="52" height="10" rx="5" fill="#8B5E3C" stroke="#5C3A1E" stroke-width="2"/>
-  <rect x="10" y="37" width="10" height="8" rx="3" fill="#C8A26B" stroke="#8B6914" stroke-width="1.5"/>
-  <circle cx="28" cy="41" r="2" fill="#5C3A1E"/>
-  <circle cx="36" cy="41" r="2" fill="#5C3A1E"/>
-  <circle cx="44" cy="41" r="2" fill="#5C3A1E"/>
-  <circle cx="52" cy="41" r="2" fill="#5C3A1E"/>
+  <!-- ナイチンゲール（オレンジ尾の小鳥） -->
+  <ellipse cx="26" cy="36" rx="11" ry="8" fill="#C8822A" stroke="#8B5010" stroke-width="1.5"/>
+  <circle cx="34" cy="29" r="7" fill="#C8822A" stroke="#8B5010" stroke-width="1.5"/>
+  <circle cx="38" cy="27" r="2.5" fill="#fff"/>
+  <circle cx="39" cy="26.5" r="1.2" fill="#222"/>
+  <polygon points="43,28 49,27 43,30" fill="#DAA520"/>
+  <!-- 尾（オレンジ） -->
+  <path d="M15 38 Q8 42 6 50 Q12 46 18 44" fill="#E05010" stroke="#8B3000" stroke-width="1"/>
+  <path d="M16 41 Q6 48 8 58 Q14 50 20 46" fill="#FF6820" stroke="#8B3000" stroke-width="1"/>
+  <!-- 足 -->
+  <line x1="24" y1="44" x2="22" y2="52" stroke="#8B5010" stroke-width="2" stroke-linecap="round"/>
+  <line x1="28" y1="44" x2="28" y2="52" stroke="#8B5010" stroke-width="2" stroke-linecap="round"/>
+  <!-- 笛 -->
+  <rect x="26" y="52" width="38" height="8" rx="4" fill="#8B5E3C" stroke="#5C3A1E" stroke-width="1.5"/>
+  <rect x="24" y="53" width="8" height="6" rx="2.5" fill="#C8A26B" stroke="#8B6914" stroke-width="1"/>
+  <circle cx="40" cy="56" r="1.5" fill="#5C3A1E"/>
+  <circle cx="48" cy="56" r="1.5" fill="#5C3A1E"/>
+  <circle cx="56" cy="56" r="1.5" fill="#5C3A1E"/>
   <!-- 音符 -->
-  <circle cx="58" cy="24" r="4" fill="#C9A84C"/>
-  <rect x="61.5" y="11" width="2.5" height="14" fill="#C9A84C"/>
-  <path d="M64 11 Q72 14 68 20" stroke="#C9A84C" stroke-width="2" fill="none"/>
-  <circle cx="42" cy="20" r="3.5" fill="#C9A84C"/>
-  <rect x="45" y="9" width="2" height="12" fill="#C9A84C"/>
+  <circle cx="68" cy="18" r="3" fill="#C9A84C"/>
+  <rect x="70.5" y="8" width="2" height="11" fill="#C9A84C"/>
+  <path d="M72.5 8 Q78 11 75 16" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
 </svg>

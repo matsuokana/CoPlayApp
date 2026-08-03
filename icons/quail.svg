@@ -1,11 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
-  <!-- ウズラ笛：丸みのある短い笛 -->
-  <ellipse cx="40" cy="46" rx="22" ry="14" fill="#C8A26B" stroke="#8B6914" stroke-width="2"/>
-  <ellipse cx="40" cy="46" rx="18" ry="10" fill="#E8C87A"/>
-  <rect x="16" y="42" width="10" height="8" rx="4" fill="#B8922B" stroke="#8B6914" stroke-width="1.5"/>
-  <circle cx="32" cy="46" r="2.5" fill="#8B6914"/>
-  <circle cx="40" cy="46" r="2.5" fill="#8B6914"/>
-  <circle cx="48" cy="46" r="2.5" fill="#8B6914"/>
-  <path d="M36 34 Q40 28 44 34" stroke="#8B6914" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <circle cx="40" cy="28" r="3" fill="#D4A84B"/>
+  <!-- ウズラ（丸みのある茶色の鳥） -->
+  <ellipse cx="30" cy="40" rx="13" ry="10" fill="#8B6914" stroke="#5C4400" stroke-width="1.5"/>
+  <circle cx="40" cy="33" r="8" fill="#8B6914" stroke="#5C4400" stroke-width="1.5"/>
+  <ellipse cx="38" cy="36" rx="5" ry="3" fill="#C8A26B" opacity="0.6"/>
+  <circle cx="44" cy="30" r="2.5" fill="#fff"/>
+  <circle cx="45" cy="29.5" r="1.2" fill="#222"/>
+  <polygon points="49,31 55,30 49,33" fill="#DAA520"/>
+  <path d="M22 44 Q20 52 18 58" stroke="#8B6914" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M30 48 Q28 56 26 60" stroke="#8B6914" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- 丸い笛 -->
+  <ellipse cx="50" cy="54" rx="16" ry="9" fill="#C8A26B" stroke="#8B6914" stroke-width="1.5"/>
+  <rect x="32" y="50" width="8" height="8" rx="3.5" fill="#A07828" stroke="#8B6914" stroke-width="1"/>
+  <circle cx="46" cy="54" r="2" fill="#8B6914"/>
+  <circle cx="54" cy="54" r="2" fill="#8B6914"/>
+  <circle cx="62" cy="54" r="2" fill="#8B6914"/>
 </svg>

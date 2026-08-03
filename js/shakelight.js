@@ -82,7 +82,6 @@ async function requestMotionPermission() {
     const res = await DeviceMotionEvent.requestPermission();
     if (res === 'granted') {
       enableMotionListener();
-      document.getElementById('btn-request-motion').classList.add('hidden');
     } else {
       alert('センサーをゆるしてもらえませんでした。\nタップでも光らせられるよ！');
     }

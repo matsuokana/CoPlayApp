@@ -64,10 +64,6 @@ function hexToRgb(hex) {
 
 function bindShakelightUI() {
   document.getElementById('btn-tap-light').addEventListener('click', triggerFlash);
-
-  // iOS13+用許可ボタン（1回だけ登録）
-  const permBtn = document.getElementById('btn-request-motion');
-  permBtn.addEventListener('click', requestMotionPermission);
 }
 
 // ===== DeviceMotion =====
@@ -76,9 +72,13 @@ function setupMotion() {
     return;
   }
 
-  // iOS 13+ は許可が必要 → ホームのボタンを表示
+  // iOS 13+ は許可が必要 → ホームのボタンを表示して1回だけリスナー登録
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    document.getElementById('btn-request-motion').classList.remove('hidden');
+    const btn = document.getElementById('btn-request-motion');
+    if (btn) {
+      btn.classList.remove('hidden');
+      btn.addEventListener('click', requestMotionPermission);
+    }
     return;
   }
 

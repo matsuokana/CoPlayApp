@@ -5,6 +5,7 @@ const DEFAULT_SOUNDS = [
   { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       type: 'default' },
   { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', type: 'default' },
   { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      type: 'default' },
+  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   type: 'default' },
   { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     type: 'default' },
   { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    type: 'default' },
   { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       type: 'default' },

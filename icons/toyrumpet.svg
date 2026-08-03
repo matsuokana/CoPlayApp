@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- おもちゃのラッパ：小さくて丸みのあるかわいいラッパ -->
+  <!-- ベル（朝顔） -->
+  <ellipse cx="62" cy="44" rx="13" ry="10" fill="#E8C840" stroke="#B89820" stroke-width="2"/>
+  <ellipse cx="60" cy="44" rx="9" ry="7" fill="#FFE860"/>
+  <!-- 管 -->
+  <path d="M16 36 Q30 30 48 38 Q54 40 56 44" stroke="#E8C840" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M16 36 Q30 30 48 38 Q54 40 56 44" stroke="#FFE860" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <!-- マウスピース -->
+  <ellipse cx="16" cy="36" rx="5" ry="4" fill="#DAA520" stroke="#B89820" stroke-width="1.5"/>
+  <ellipse cx="16" cy="36" rx="3" ry="2.5" fill="#FFE860"/>
+  <!-- 輝き -->
+  <ellipse cx="28" cy="30" rx="4" ry="1.5" fill="#FFF" opacity="0.35" transform="rotate(-20 28 30)"/>
+  <!-- 音の出る線 -->
+  <path d="M70 36 Q75 32 73 28" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M72 42 Q79 40 78 34" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <path d="M70 50 Q77 52 78 48" stroke="#C9A84C" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+</svg>

@@ -79,10 +79,29 @@ const synths = {
   },
 
   'おもちゃのラッパ'(ctx) {
-    // 明るいファンファーレ風短音
-    const notes = [523, 659, 784];
-    notes.forEach((freq, i) => {
-      setTimeout(() => playTone(ctx, freq, 'square', 0.25, 0.35, 0.02), i * 130);
+    // おもちゃの交響曲風：プァ〜ンという明るい3和音
+    const chord = [
+      { freq: 523, gain: 0.30 },  // ド
+      { freq: 659, gain: 0.20 },  // ミ
+      { freq: 784, gain: 0.12 },  // ソ
+    ];
+    chord.forEach(({ freq, gain }) => {
+      // 矩形波（おもちゃらしい音色）
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const g    = ctx.createGain();
+      osc1.type = 'square';
+      osc1.frequency.value = freq;
+      osc2.type = 'sawtooth';
+      osc2.frequency.value = freq * 2;
+      g.gain.setValueAtTime(0.001, ctx.currentTime);
+      g.gain.linearRampToValueAtTime(gain, ctx.currentTime + 0.04);
+      g.gain.setValueAtTime(gain, ctx.currentTime + 0.18);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+      osc1.connect(g); osc2.connect(g); g.connect(ctx.destination);
+      osc1.start(); osc2.start();
+      osc1.stop(ctx.currentTime + 0.6);
+      osc2.stop(ctx.currentTime + 0.6);
     });
   },
 

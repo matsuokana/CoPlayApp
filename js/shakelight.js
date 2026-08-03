@@ -64,6 +64,19 @@ function hexToRgb(hex) {
 
 function bindShakelightUI() {
   document.getElementById('btn-tap-light').addEventListener('click', triggerFlash);
+
+  // iOS13+かつ未許可の場合のみ許可ボタンを表示
+  if (
+    typeof DeviceMotionEvent !== 'undefined' &&
+    typeof DeviceMotionEvent.requestPermission === 'function'
+  ) {
+    const btn = document.getElementById('btn-request-motion');
+    if (!_motionEnabled) btn.classList.remove('hidden');
+    btn.addEventListener('click', async () => {
+      await requestMotionPermissionExplicit();
+      if (_motionEnabled) btn.classList.add('hidden');
+    });
+  }
 }
 
 // ===== DeviceMotion =====
@@ -77,16 +90,27 @@ function setupMotion() {
   // iOS は「ふって光らせよう！」ボタン押下時に main.js から requestMotionPermission() を呼ぶ
 }
 
+// 自動呼び出し用（アラートなし）：ホームボタンタップ時に使用
 async function requestMotionPermission() {
+  try {
+    const res = await DeviceMotionEvent.requestPermission();
+    if (res === 'granted') enableMotionListener();
+  } catch (e) {
+    // 拒否済みや非対応の場合は何もしない
+  }
+}
+
+// 明示的なボタン押下用（アラートあり）
+async function requestMotionPermissionExplicit() {
   try {
     const res = await DeviceMotionEvent.requestPermission();
     if (res === 'granted') {
       enableMotionListener();
     } else {
-      alert('センサーをゆるしてもらえませんでした。\nタップでも光らせられるよ！');
+      alert('センサーをゆるしてもらえませんでした。\nページをリロードしてもう一度ためしてね！');
     }
   } catch (e) {
-    alert('センサーをつかえませんでした。\nタップでも光らせられるよ！');
+    alert('センサーをつかえませんでした。\nページをリロードしてもう一度ためしてね！');
   }
 }
 

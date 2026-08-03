@@ -64,11 +64,6 @@ function hexToRgb(hex) {
 
 function bindShakelightUI() {
   document.getElementById('btn-tap-light').addEventListener('click', triggerFlash);
-
-  document.getElementById('sfx-toggle').addEventListener('change', e => {
-    saveSettings('sfx', e.target.checked);
-  });
-  document.getElementById('sfx-toggle').checked = loadSettings('sfx', true);
 }
 
 // ===== DeviceMotion =====

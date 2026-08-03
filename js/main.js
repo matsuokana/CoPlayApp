@@ -20,21 +20,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   bindNavigation();
 });
 
+// iOS DeviceMotion許可を求めるユーティリティ（ユーザー操作内でのみ有効）
+async function requestMotionIfNeeded() {
+  if (
+    typeof DeviceMotionEvent !== 'undefined' &&
+    typeof DeviceMotionEvent.requestPermission === 'function' &&
+    !_motionEnabled
+  ) {
+    await requestMotionPermission();
+  }
+}
+
 function bindNavigation() {
-  // ホーム → サウンドボード
-  document.getElementById('btn-go-soundboard').addEventListener('click', () => {
+  // ホーム → サウンドボード（iOSなら同時にセンサー許可）
+  document.getElementById('btn-go-soundboard').addEventListener('click', async () => {
+    await requestMotionIfNeeded();
     showScreen('soundboard');
   });
 
-  // ホーム → 発光（iOS未許可なら許可を求めてから遷移）
+  // ホーム → 発光（iOSなら同時にセンサー許可）
   document.getElementById('btn-go-shakelight').addEventListener('click', async () => {
-    if (
-      typeof DeviceMotionEvent !== 'undefined' &&
-      typeof DeviceMotionEvent.requestPermission === 'function' &&
-      !_motionEnabled
-    ) {
-      await requestMotionPermission();
-    }
+    await requestMotionIfNeeded();
     showScreen('shakelight');
   });
 

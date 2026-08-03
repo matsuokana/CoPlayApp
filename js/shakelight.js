@@ -64,20 +64,21 @@ function hexToRgb(hex) {
 
 function bindShakelightUI() {
   document.getElementById('btn-tap-light').addEventListener('click', triggerFlash);
+
+  // iOS13+用許可ボタン（1回だけ登録）
+  const permBtn = document.getElementById('btn-request-motion');
+  permBtn.addEventListener('click', requestMotionPermission);
 }
 
 // ===== DeviceMotion =====
 function setupMotion() {
   if (typeof DeviceMotionEvent === 'undefined') {
-    // センサー非対応端末：ボタンを隠したまま
     return;
   }
 
   // iOS 13+ は許可が必要 → ホームのボタンを表示
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
-    const btn = document.getElementById('btn-request-motion');
-    btn.classList.remove('hidden');
-    btn.addEventListener('click', requestMotionPermission);
+    document.getElementById('btn-request-motion').classList.remove('hidden');
     return;
   }
 

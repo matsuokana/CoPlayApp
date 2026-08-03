@@ -159,7 +159,9 @@ function bindMenuEvents() {
   document.getElementById('btn-confirm-yes').addEventListener('click', async () => {
     if (!_editTarget) { closeConfirm(); return; }
     const id = _editTarget.id;
-    closeConfirm(); // _editTarget を null にしてから削除
+    _editTarget = null;
+    document.getElementById('confirm-dialog').classList.add('hidden');
+    document.getElementById('dialog-backdrop').classList.add('hidden');
     await deleteUserSound(id);
     _allSounds = _allSounds.filter(s => s.id !== id);
     renderGrid();

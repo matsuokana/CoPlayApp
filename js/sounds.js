@@ -50,24 +50,19 @@ function playTone(ctx, freq, type, duration, gainVal, attack) {
 // ====== 各楽器の合成音 ======
 const synths = {
 
-  たいこ(ctx) {
-    // ピッチドロップ付きキック
-    const osc = ctx.createOscillator();
-    const g   = ctx.createGain();
-    osc.frequency.setValueAtTime(180, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.3);
-    g.gain.setValueAtTime(1.2, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-    osc.connect(g); g.connect(ctx.destination);
-    osc.start(); osc.stop(ctx.currentTime + 0.45);
-    playNoise(ctx, 0.08, 0.3, 2000);
+  'カッコウ笛'(ctx) {
+    // カッコウ：下降2音（ミ→ド）
+    const notes = [659, 523];
+    notes.forEach((freq, i) => {
+      setTimeout(() => playTone(ctx, freq, 'sine', 0.35, 0.45, 0.02), i * 220);
+    });
   },
 
-  ギター(ctx) {
-    // Karplus-Strong 風の簡易実装
-    const dur = 1.2;
-    [220, 330, 440, 550].forEach((freq, i) => {
-      setTimeout(() => playTone(ctx, freq, 'sawtooth', dur - i * 0.1, 0.18, 0.005), i * 20);
+  'ウズラ笛'(ctx) {
+    // ウズラ：3連符風の短い上昇
+    const notes = [880, 1047, 1175];
+    notes.forEach((freq, i) => {
+      setTimeout(() => playTone(ctx, freq, 'sine', 0.18, 0.4, 0.01), i * 110);
     });
   },
 
@@ -76,16 +71,12 @@ const synths = {
     playTone(ctx, 1046,'sawtooth', 0.4, 0.1, 0.03);
   },
 
-  ピアノ(ctx) {
-    [523, 1046, 1568].forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const g   = ctx.createGain();
-      osc.type  = 'triangle';
-      osc.frequency.value = freq;
-      g.gain.setValueAtTime(0.4 / (i + 1), ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime + 1.6);
+  'ナイチンゲール笛'(ctx) {
+    // ナイチンゲール：トリル風の速い音の動き
+    const base = 1047;
+    [0,1,0,1,0,1,2].forEach((step, i) => {
+      const freq = base * Math.pow(2, step / 12);
+      setTimeout(() => playTone(ctx, freq, 'sine', 0.12, 0.35, 0.01), i * 80);
     });
   },
 
@@ -93,28 +84,17 @@ const synths = {
     playNoise(ctx, 0.25, 0.5, 6000);
   },
 
-  かね(ctx) {
-    [880, 1320, 1760].forEach((f, i) => {
-      playTone(ctx, f, 'sine', 1.5, 0.25 / (i + 1), 0.005);
+  'おもちゃのラッパ'(ctx) {
+    // 明るいファンファーレ風短音
+    const notes = [523, 659, 784];
+    notes.forEach((freq, i) => {
+      setTimeout(() => playTone(ctx, freq, 'square', 0.25, 0.35, 0.02), i * 130);
     });
   },
 
-  バイオリン(ctx) {
-    const freq = 659;
-    const osc  = ctx.createOscillator();
-    const vib  = ctx.createOscillator();
-    const vibG = ctx.createGain();
-    const g    = ctx.createGain();
-    osc.type  = 'sawtooth';
-    osc.frequency.value = freq;
-    vib.frequency.value = 6; vibG.gain.value = 8;
-    vib.connect(vibG); vibG.connect(osc.frequency);
-    g.gain.setValueAtTime(0.001, ctx.currentTime);
-    g.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.1);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.0);
-    osc.connect(g); g.connect(ctx.destination);
-    osc.start(); vib.start();
-    osc.stop(ctx.currentTime + 1.05); vib.stop(ctx.currentTime + 1.05);
+  'おもちゃのたいこ'(ctx) {
+    playTone(ctx, 120, 'sine', 0.3, 0.7, 0.005);
+    playNoise(ctx, 0.05, 0.3, 1000);
   },
 
   ホイッスル(ctx) {
@@ -154,21 +134,22 @@ const synths = {
   },
 
   タンバリン(ctx) {
-    // シェル打撃
     playNoise(ctx, 0.15, 0.7, 5000);
-    // ジングル
     [3200, 4200, 5000].forEach(f => playTone(ctx, f, 'sine', 0.5, 0.08, 0.003));
   },
 
-  おもちゃのたいこ(ctx) {
-    playTone(ctx, 120, 'sine', 0.3, 0.7, 0.005);
-    playNoise(ctx, 0.05, 0.3, 1000);
+  トライアングル(ctx) {
+    // 高い正弦波が長く余韻
+    [4186, 5274].forEach((f, i) => {
+      playTone(ctx, f, 'sine', 2.0, 0.3 / (i + 1), 0.005);
+    });
   },
 
-  すず(ctx) {
-    [1200, 1800, 2400].forEach((f, i) => {
-      setTimeout(() => playTone(ctx, f, 'sine', 0.6, 0.2, 0.005), i * 40);
-    });
+  ラチェット(ctx) {
+    // 短いクリック音を連続で鳴らす
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => playNoise(ctx, 0.03, 0.6, 3000), i * 55);
+    }
   },
 
   // キラキラ効果音（発光時）

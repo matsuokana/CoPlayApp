@@ -1,20 +1,20 @@
 'use strict';
 
 const DEFAULT_SOUNDS = [
-  { id: 'default_drum',       name: 'たいこ',         icon: '🥁',  type: 'default' },
-  { id: 'default_guitar',     name: 'ギター',          icon: '🎸',  type: 'default' },
-  { id: 'default_trumpet',    name: 'トランペット',    icon: '🎺',  type: 'default' },
-  { id: 'default_piano',      name: 'ピアノ',          icon: '🎹',  type: 'default' },
-  { id: 'default_maraca',     name: 'マラカス',        icon: '🪇',  type: 'default' },
-  { id: 'default_bell',       name: 'かね',            icon: '🔔',  type: 'default' },
-  { id: 'default_violin',     name: 'バイオリン',      icon: '🎻',  type: 'default' },
-  { id: 'default_whistle',    name: 'ホイッスル',      icon: '📯',  type: 'default' },
-  { id: 'default_castanet',   name: 'カスタネット',    icon: '👐',  type: 'default' },
-  { id: 'default_boing',      name: 'ぼよよーん',      icon: '🌀',  type: 'default' },
-  { id: 'default_cymbal',     name: 'シンバル',        icon: '🔘',  type: 'default' },
-  { id: 'default_tambourine', name: 'タンバリン',      icon: '🥁',  type: 'default' },
-  { id: 'default_toydrum',    name: 'おもちゃのたいこ',icon: '🪘',  type: 'default' },
-  { id: 'default_bell2',      name: 'すず',            icon: '🔕',  type: 'default' },
+  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: '🐦',  type: 'default' },
+  { id: 'default_quail',      name: 'ウズラ笛',         icon: '🐤',  type: 'default' },
+  { id: 'default_trumpet',    name: 'トランペット',     icon: '🎺',  type: 'default' },
+  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: '🎶',  type: 'default' },
+  { id: 'default_maraca',     name: 'マラカス',         icon: '🪇',  type: 'default' },
+  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: '📯',  type: 'default' },
+  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: '🥁',  type: 'default' },
+  { id: 'default_whistle',    name: 'ホイッスル',       icon: '😤',  type: 'default' },
+  { id: 'default_castanet',   name: 'カスタネット',     icon: '👐',  type: 'default' },
+  { id: 'default_boing',      name: 'ぼよよーん',       icon: '🌀',  type: 'default' },
+  { id: 'default_cymbal',     name: 'シンバル',         icon: '🔘',  type: 'default' },
+  { id: 'default_tambourine', name: 'タンバリン',       icon: '🪘',  type: 'default' },
+  { id: 'default_triangle',   name: 'トライアングル',   icon: '🔔',  type: 'default' },
+  { id: 'default_ratchet',    name: 'ラチェット',       icon: '⚙️',  type: 'default' },
 ];
 
 const ICON_OPTIONS = [

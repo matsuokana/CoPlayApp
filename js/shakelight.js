@@ -131,6 +131,5 @@ function triggerFlash() {
   const overlay = document.getElementById('flash-overlay');
   overlay.style.background = _selectedColor;
   overlay.classList.add('visible');
-  if (loadSettings('sfx', true)) playSparkle();
   setTimeout(() => { overlay.classList.remove('visible'); }, 400);
 }

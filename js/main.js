@@ -15,7 +15,7 @@ function showScreen(name) {
 // ===== 初期化 =====
 document.addEventListener('DOMContentLoaded', async () => {
   await initSoundboard();
-  initShakelight();
+  initShake();
   bindMenuEvents();
   bindNavigation();
 });
@@ -38,12 +38,6 @@ function bindNavigation() {
     showScreen('soundboard');
   });
 
-  // ホーム → 発光（iOSなら同時にセンサー許可）
-  document.getElementById('btn-go-shakelight').addEventListener('click', async () => {
-    await requestMotionIfNeeded();
-    showScreen('shakelight');
-  });
-
   // サウンドボード → ホーム
   document.getElementById('btn-back-soundboard').addEventListener('click', () => {
     showScreen('home');
@@ -53,11 +47,6 @@ function bindNavigation() {
   document.getElementById('btn-back-record').addEventListener('click', () => {
     stopRecording();
     showScreen('soundboard');
-  });
-
-  // 発光 → ホーム
-  document.getElementById('btn-back-shakelight').addEventListener('click', () => {
-    showScreen('home');
   });
 
   // ＋追加ボタン → 録音画面

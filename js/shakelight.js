@@ -1,93 +1,20 @@
 'use strict';
 
-const COLORS = [
-  { name: 'あか',      hex: '#FF4444' },
-  { name: 'だいだい',  hex: '#FF8800' },
-  { name: 'き',        hex: '#FFDD00' },
-  { name: 'みどり',    hex: '#44CC44' },
-  { name: 'あお',      hex: '#4488FF' },
-  { name: 'むらさき',  hex: '#AA44FF' },
-  { name: 'ピンク',    hex: '#FF44AA' },
-  { name: 'しろ',      hex: '#FFFFFF' },
-];
-
 const SHAKE_THRESHOLD = 20;
 const COOLDOWN_MS     = 500;
 
-let _selectedColor = COLORS[0].hex;
 let _lastShake     = 0;
 let _motionEnabled = false;
 
-function initShakelight() {
-  renderColorPicker();
-  bindShakelightUI();
+function initShake() {
   setupMotion();
 }
 
-function renderColorPicker() {
-  const picker = document.getElementById('color-picker');
-  picker.innerHTML = '';
-  COLORS.forEach(c => {
-    const item   = document.createElement('div');
-    item.className = 'color-item';
-
-    const circle = document.createElement('div');
-    circle.className = 'color-option' + (c.hex === _selectedColor ? ' selected' : '');
-    circle.style.background = c.hex;
-    circle.setAttribute('aria-label', c.name);
-    circle.setAttribute('role', 'button');
-    circle.addEventListener('click', () => selectColor(c.hex));
-
-    const label = document.createElement('div');
-    label.className   = 'color-name';
-    label.textContent = c.name;
-
-    item.appendChild(circle);
-    item.appendChild(label);
-    picker.appendChild(item);
-  });
-}
-
-function selectColor(hex) {
-  _selectedColor = hex;
-  document.querySelectorAll('.color-option').forEach(el => {
-    el.classList.toggle('selected', el.style.background === hexToRgb(hex) || el.style.background === hex);
-  });
-}
-
-function hexToRgb(hex) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-function bindShakelightUI() {
-  document.getElementById('btn-tap-light').addEventListener('click', triggerFlash);
-
-  // iOS13+かつ未許可の場合のみ許可ボタンを表示
-  if (
-    typeof DeviceMotionEvent !== 'undefined' &&
-    typeof DeviceMotionEvent.requestPermission === 'function'
-  ) {
-    const btn = document.getElementById('btn-request-motion');
-    if (!_motionEnabled) btn.classList.remove('hidden');
-    btn.addEventListener('click', async () => {
-      await requestMotionPermissionExplicit();
-      if (_motionEnabled) btn.classList.add('hidden');
-    });
-  }
-}
-
-// ===== DeviceMotion =====
 function setupMotion() {
   if (typeof DeviceMotionEvent === 'undefined') return;
-
-  // iOS 13+ 以外はそのまま登録
   if (typeof DeviceMotionEvent.requestPermission !== 'function') {
     enableMotionListener();
   }
-  // iOS は「ふって光らせよう！」ボタン押下時に main.js から requestMotionPermission() を呼ぶ
 }
 
 // 自動呼び出し用（アラートなし）：ホームボタンタップ時に使用
@@ -97,20 +24,6 @@ async function requestMotionPermission() {
     if (res === 'granted') enableMotionListener();
   } catch (e) {
     // 拒否済みや非対応の場合は何もしない
-  }
-}
-
-// 明示的なボタン押下用（アラートあり）
-async function requestMotionPermissionExplicit() {
-  try {
-    const res = await DeviceMotionEvent.requestPermission();
-    if (res === 'granted') {
-      enableMotionListener();
-    } else {
-      alert('センサーをゆるしてもらえませんでした。\nページをリロードしてもう一度ためしてね！');
-    }
-  } catch (e) {
-    alert('センサーをつかえませんでした。\nページをリロードしてもう一度ためしてね！');
   }
 }
 
@@ -128,18 +41,8 @@ function onDeviceMotion(e) {
   if (total > SHAKE_THRESHOLD && now - _lastShake > COOLDOWN_MS) {
     _lastShake = now;
     const activeId = document.querySelector('.screen.active')?.id || '';
-    if (activeId === 'screen-shakelight') {
-      triggerFlash();
-    } else if (activeId === 'screen-soundboard') {
+    if (activeId === 'screen-soundboard') {
       playSelectedSoundOnShake();
     }
   }
-}
-
-// ===== 発光 =====
-function triggerFlash() {
-  const overlay = document.getElementById('flash-overlay');
-  overlay.style.background = _selectedColor;
-  overlay.classList.add('visible');
-  setTimeout(() => { overlay.classList.remove('visible'); }, 400);
 }

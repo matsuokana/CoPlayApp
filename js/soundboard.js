@@ -1,19 +1,22 @@
 'use strict';
 
 const DEFAULT_SOUNDS = [
-  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      type: 'default' },
-  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       type: 'default' },
-  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', type: 'default' },
-  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      type: 'default' },
-  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   type: 'default' },
-  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     type: 'default' },
-  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    type: 'default' },
-  { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       type: 'default' },
-  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      type: 'default' },
-  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  type: 'default' },
-  { id: 'default_triangle',   name: 'トライアングル',   icon: 'icons/triangle.svg',    type: 'default' },
-  { id: 'default_ratchet',    name: 'ラチェット',       icon: 'icons/ratchet.svg',     type: 'default' },
+  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default' },
+  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       src: 'sounds/quail.mp4',       type: 'default' },
+  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', src: 'sounds/nightingale.mp4', type: 'default' },
+  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      src: 'sounds/maraca.mp4',      type: 'default' },
+  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   src: 'sounds/toyrumpet.mp4',   type: 'default' },
+  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     src: 'sounds/toydrum.mp4',     type: 'default' },
+  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    src: 'sounds/castanet.mp4',    type: 'default' },
+  { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       src: 'sounds/boing.mp4',       type: 'default' },
+  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      src: 'sounds/cymbal.mp4',      type: 'default' },
+  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  src: 'sounds/tambourine.mp4',  type: 'default' },
+  { id: 'default_triangle',   name: 'トライアングル',   icon: 'icons/triangle.svg',    src: 'sounds/triangle.mp4',    type: 'default' },
+  { id: 'default_ratchet',    name: 'ラチェット',       icon: 'icons/ratchet.svg',     src: 'sounds/ratchet.mp4',     type: 'default' },
 ];
+
+// ファイル音源のキャッシュ（同じ音を何度でも素早く再生するため）
+const _audioCache = {};
 
 const ICON_OPTIONS = [
   '🥁','🎸','🎺','🎹','🎻','🪇','🔔','📯','🪘','🎷',
@@ -97,6 +100,18 @@ async function onSoundTap(s, btn) {
 async function playSoundById(s) {
   if (!s) return;
   if (s.type === 'default') {
+    // srcがあればファイル音源を優先、失敗時は合成音にフォールバック
+    if (s.src) {
+      try {
+        if (!_audioCache[s.src]) _audioCache[s.src] = new Audio(s.src);
+        const audio = _audioCache[s.src];
+        audio.currentTime = 0;
+        await audio.play();
+        return;
+      } catch (e) {
+        // ファイルが未配置の場合は合成音で代替
+      }
+    }
     await playDefaultSound(s.name);
   } else {
     const db  = await openDB();

@@ -35,6 +35,15 @@ let _recTimer   = null;
 let _recSec     = 0;
 
 async function initSoundboard() {
+  // ファイル音源を先読みしてキャッシュ（タップ時の遅延をなくす）
+  DEFAULT_SOUNDS.forEach(s => {
+    if (s.src) {
+      const audio = new Audio(s.src);
+      audio.preload = 'auto';
+      _audioCache[s.src] = audio;
+    }
+  });
+
   const userSounds = await loadAllUserSounds();
   _allSounds = [...DEFAULT_SOUNDS, ...userSounds];
   renderGrid();

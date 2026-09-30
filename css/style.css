@@ -39,8 +39,18 @@ html, body {
 
 .home-bg {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, #1e3570 0%, #0a1530 60%, #050a18 100%);
+  background: #060606;
   overflow: hidden;
+}
+
+.notes-bg { position: absolute; inset: 0; overflow: hidden; }
+.note {
+  position: absolute; display: inline-block; line-height: 1;
+  animation: note-glow 3s ease-in-out infinite;
+}
+@keyframes note-glow {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
 }
 
 .curtain {
@@ -78,15 +88,15 @@ html, body {
 }
 
 .app-title {
-  font-size: 2.8rem; font-weight: bold;
-  color: var(--gold2);
-  text-shadow: 0 0 20px rgba(201,168,76,0.8), 0 2px 4px rgba(0,0,0,0.8);
-  letter-spacing: 0.05em;
+  font-size: 4rem; font-weight: bold;
+  color: #FFFFFF;
+  text-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.15), 0 2px 6px rgba(0,0,0,0.9);
+  letter-spacing: 0.08em;
 }
 .app-subtitle {
   font-size: 1rem; color: var(--cream);
-  opacity: 0.85; letter-spacing: 0.1em;
-  margin-bottom: 12px;
+  opacity: 0.9; letter-spacing: 0.06em;
+  margin-bottom: 12px; text-align: center;
 }
 
 .home-buttons { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 320px; }

@@ -102,12 +102,10 @@ html, body {
 .home-buttons { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 320px; }
 
 .event-band {
-  background: linear-gradient(135deg, #8b1a2a 0%, #c0392b 100%);
   color: #FFFFFF; font-weight: bold;
   font-size: 0.85rem; letter-spacing: 0.04em;
-  padding: 10px 16px; text-align: center;
-  border-radius: 4px; width: 100%; max-width: 320px;
-  box-shadow: 0 2px 12px rgba(192,57,43,0.6);
+  padding: 4px 0; text-align: center;
+  width: 100%; max-width: 320px;
 }
 
 .home-btn {

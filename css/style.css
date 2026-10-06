@@ -94,6 +94,11 @@ html, body {
   text-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.15), 0 2px 6px rgba(0,0,0,0.9);
   letter-spacing: 0.08em;
 }
+.title-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.app-subtitle {
+  font-size: 1rem; color: var(--cream);
+  opacity: 0.9; letter-spacing: 0.06em; text-align: center;
+}
 
 .home-buttons { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 320px; }
 

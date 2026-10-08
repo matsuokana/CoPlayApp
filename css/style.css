@@ -25,6 +25,7 @@ html, body {
 /* ===== 画面管理 ===== */
 .screen {
   position: fixed; inset: 0;
+  height: 100%; height: 100dvh;
   display: flex; flex-direction: column;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s ease;
@@ -83,36 +84,31 @@ html, body {
   position: relative; z-index: 1;
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 32px 24px 48px;
-  gap: 16px;
+  padding: 24px 24px 32px;
+  gap: 32px;
 }
 
 .app-title {
-  font-size: 4rem; font-weight: bold;
+  font-size: clamp(2.8rem, 11vh, 4rem); font-weight: bold;
   color: #FFFFFF;
   text-shadow: 0 0 30px rgba(255,255,255,0.5), 0 0 60px rgba(255,255,255,0.15), 0 2px 6px rgba(0,0,0,0.9);
   letter-spacing: 0.08em;
 }
+.title-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .app-subtitle {
   font-size: 1rem; color: var(--cream);
-  opacity: 0.9; letter-spacing: 0.06em;
-  margin-bottom: 12px; text-align: center;
+  opacity: 0.9; letter-spacing: 0.06em; text-align: center;
 }
 
 .home-buttons { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 320px; }
 
-.event-band {
-  color: #FFFFFF; font-weight: bold;
-  font-size: 0.85rem; letter-spacing: 0.04em;
-  padding: 4px 0; text-align: center;
-  width: 100%; max-width: 320px;
-}
-
 .home-btn {
   display: flex; align-items: center; gap: 16px;
+  width: 100%; min-height: 60px;
   padding: 20px 24px; border: none; border-radius: var(--radius);
   cursor: pointer; font-family: inherit; font-size: 1.3rem;
-  font-weight: bold; letter-spacing: 0.05em;
+  font-weight: bold; letter-spacing: 0.05em; text-align: left;
+  text-decoration: none;
   box-shadow: 0 4px 20px var(--shadow);
   transition: transform 0.1s, box-shadow 0.1s;
   -webkit-tap-highlight-color: transparent;
@@ -124,6 +120,24 @@ html, body {
   border: 2px solid var(--gold);
   color: #FFFFFF;
 }
+.btn-quiz {
+  background: linear-gradient(135deg, #1e3570 0%, #2d4fa8 100%);
+  border: 2px solid var(--gold);
+  color: #FFFFFF;
+}
+.btn-learn {
+  background: linear-gradient(135deg, #3a2000 0%, #5a3500 100%);
+  border: 2px solid var(--gold);
+  color: var(--gold2);
+}
+.home-btn:disabled {
+  background: #2a1f10; border-color: rgba(201,168,76,0.45);
+  color: rgba(240,208,112,0.55); cursor: default;
+}
+.home-btn:disabled .btn-icon { opacity: 0.55; }
+.home-btn:disabled:active { transform: none; box-shadow: 0 4px 20px var(--shadow); }
+.btn-text { display: flex; flex-direction: column; gap: 2px; }
+.btn-sub { font-size: 0.75rem; font-weight: normal; opacity: 0.85; }
 .btn-light {
   background: linear-gradient(135deg, #5a0d18 0%, #8b1a2a 100%);
   border: 2px solid var(--gold);
@@ -131,6 +145,15 @@ html, body {
 }
 .btn-icon { font-size: 2rem; }
 .btn-label { font-size: 1.2rem; }
+
+/* 背の低い端末（iPhone SE 等）でもスクロールなしで収める */
+@media (max-height: 700px) {
+  .home-content { gap: 20px; padding: 16px 24px; }
+  .home-buttons { gap: 14px; }
+  .home-btn { padding: 14px 20px; }
+  .btn-icon { font-size: 1.6rem; }
+  .btn-label { font-size: 1.1rem; }
+}
 
 /* ===== 共通ヘッダー ===== */
 .page-header {

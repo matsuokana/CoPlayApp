@@ -50,10 +50,9 @@ html, body {
   animation: note-glow 3s ease-in-out infinite;
 }
 @keyframes note-glow {
-  0%, 100% { opacity: 0.5; }
-  50%       { opacity: 1; }
+  0%, 100% { opacity: 0.45; scale: 0.92; filter: brightness(1); }
+  50%       { opacity: 1;    scale: 1.08; filter: brightness(1.4); }
 }
-
 .curtain {
   position: absolute; top: 0; bottom: 0;
   width: 38%;
@@ -109,6 +108,7 @@ html, body {
   cursor: pointer; font-family: inherit; font-size: 1.3rem;
   font-weight: bold; letter-spacing: 0.05em; text-align: left;
   text-decoration: none;
+  -webkit-appearance: none; appearance: none;
   box-shadow: 0 4px 20px var(--shadow);
   transition: transform 0.1s, box-shadow 0.1s;
   -webkit-tap-highlight-color: transparent;
@@ -133,6 +133,7 @@ html, body {
 .home-btn:disabled {
   background: #2a1f10; border-color: rgba(201,168,76,0.45);
   color: rgba(240,208,112,0.55); cursor: default;
+  -webkit-text-fill-color: rgba(240,208,112,0.55); opacity: 1;
 }
 .home-btn:disabled .btn-icon { opacity: 0.55; }
 .home-btn:disabled:active { transform: none; box-shadow: 0 4px 20px var(--shadow); }

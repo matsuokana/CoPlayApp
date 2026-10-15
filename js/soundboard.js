@@ -1,22 +1,24 @@
 'use strict';
 
 const DEFAULT_SOUNDS = [
-  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default' },
-  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       src: 'sounds/quail.mp4',       type: 'default' },
+  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default', start: 0.13, end: 1.0 }, // 録音に2回鳴き声が入っているので1回目で止める
+  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       src: 'sounds/quail.mp4',       type: 'default', start: 0.18 },
   { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', src: 'sounds/nightingale.mp4', type: 'default' },
-  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      src: 'sounds/maraca.mp4',      type: 'default' },
-  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   src: 'sounds/toyrumpet.mp4',   type: 'default' },
-  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     src: 'sounds/toydrum.mp4',     type: 'default' },
-  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    src: 'sounds/castanet.mp4',    type: 'default' },
+  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      src: 'sounds/maraca.mp4',      type: 'default', start: 0.05 },
+  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   src: 'sounds/toyrumpet.mp4',   type: 'default', start: 0.12 },
+  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     src: 'sounds/toydrum.mp4',     type: 'default', start: 0.19 }, // 録音冒頭の無音を飛ばす
+  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    src: 'sounds/castanet.mp4',    type: 'default', start: 0.16 },
   { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       src: 'sounds/boing.mp4',       type: 'default' },
-  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      src: 'sounds/cymbal.mp4',      type: 'default' },
-  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  src: 'sounds/tambourine.mp4',  type: 'default' },
+  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      src: 'sounds/cymbal.mp4',      type: 'default', start: 0.15 },
+  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  src: 'sounds/tambourine.mp4',  type: 'default', start: 0.55 },
   { id: 'default_triangle',   name: 'トライアングル',   icon: 'icons/triangle.svg',    src: 'sounds/triangle.mp4',    type: 'default' },
   { id: 'default_ratchet',    name: 'ラチェット',       icon: 'icons/ratchet.svg',     src: 'sounds/ratchet.mp4',     type: 'default' },
 ];
 
 // ファイル音源のキャッシュ（同じ音を何度でも素早く再生するため）
 const _audioCache = {};
+// end指定のある音源を途中で止めるタイマー（src単位）
+const _stopTimers = {};
 
 const ICON_OPTIONS = [
   '🥁','🎸','🎺','🎹','🎻','🪇','🔔','📯','🪘','🎷',
@@ -46,6 +48,8 @@ async function initSoundboard() {
 
   const userSounds = await loadAllUserSounds();
   _allSounds = [...DEFAULT_SOUNDS, ...userSounds];
+  // 一度もタップしていなくても振れば鳴るよう、初期音をランダムに選んでおく
+  pickRandomDefaultSound();
   renderGrid();
   bindRecordUI();
 }
@@ -94,6 +98,10 @@ function renderGrid() {
     userCount >= MAX_USER_SOUNDS ? 'none' : '';
 }
 
+function pickRandomDefaultSound() {
+  _selectedSound = DEFAULT_SOUNDS[Math.floor(Math.random() * DEFAULT_SOUNDS.length)];
+}
+
 function selectSound(s, btn) {
   _selectedSound = s;
   document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('selected-sound'));
@@ -114,8 +122,18 @@ async function playSoundById(s) {
       try {
         if (!_audioCache[s.src]) _audioCache[s.src] = new Audio(s.src);
         const audio = _audioCache[s.src];
-        audio.currentTime = 0;
+        clearInterval(_stopTimers[s.src]);
+        audio.currentTime = s.start || 0;
         await audio.play();
+        if (s.end) {
+          // 再生開始の遅れは端末ごとに違うので、実際の再生位置で止める
+          _stopTimers[s.src] = setInterval(() => {
+            if (audio.paused || audio.currentTime >= s.end) {
+              audio.pause();
+              clearInterval(_stopTimers[s.src]);
+            }
+          }, 20);
+        }
         return;
       } catch (e) {
         // ファイルが未配置の場合は合成音で代替
@@ -189,6 +207,7 @@ function bindMenuEvents() {
     document.getElementById('dialog-backdrop').classList.add('hidden');
     await deleteUserSound(id);
     _allSounds = _allSounds.filter(s => s.id !== id);
+    if (_selectedSound && _selectedSound.id === id) pickRandomDefaultSound();
     renderGrid();
   });
 

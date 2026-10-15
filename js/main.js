@@ -32,10 +32,10 @@ async function requestMotionIfNeeded() {
 }
 
 function bindNavigation() {
-  // ホーム → サウンドボード（iOSなら同時にセンサー許可）
+  // ホーム → サウンドボード（画面遷移後にセンサー許可）
   document.getElementById('btn-go-soundboard').addEventListener('click', async () => {
-    await requestMotionIfNeeded();
     showScreen('soundboard');
+    await requestMotionIfNeeded();
   });
 
   // サウンドボード → ホーム

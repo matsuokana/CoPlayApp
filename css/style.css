@@ -182,6 +182,11 @@ html, body {
 #screen-soundboard {
   background: #080808;
 }
+.shake-hint {
+  text-align: center; font-size: 0.85rem;
+  color: var(--gold2); opacity: 0.8;
+  padding: 6px 0; flex-shrink: 0;
+}
 .soundboard-grid {
   flex: 1; overflow-y: auto;
   display: grid;

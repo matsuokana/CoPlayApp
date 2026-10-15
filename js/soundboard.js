@@ -46,6 +46,8 @@ async function initSoundboard() {
 
   const userSounds = await loadAllUserSounds();
   _allSounds = [...DEFAULT_SOUNDS, ...userSounds];
+  // 一度もタップしていなくても振れば鳴るよう、初期音をランダムに選んでおく
+  pickRandomDefaultSound();
   renderGrid();
   bindRecordUI();
 }
@@ -92,6 +94,10 @@ function renderGrid() {
   const userCount = _allSounds.filter(s => s.type === 'user').length;
   document.getElementById('btn-add-sound').style.display =
     userCount >= MAX_USER_SOUNDS ? 'none' : '';
+}
+
+function pickRandomDefaultSound() {
+  _selectedSound = DEFAULT_SOUNDS[Math.floor(Math.random() * DEFAULT_SOUNDS.length)];
 }
 
 function selectSound(s, btn) {
@@ -189,6 +195,7 @@ function bindMenuEvents() {
     document.getElementById('dialog-backdrop').classList.add('hidden');
     await deleteUserSound(id);
     _allSounds = _allSounds.filter(s => s.id !== id);
+    if (_selectedSound && _selectedSound.id === id) pickRandomDefaultSound();
     renderGrid();
   });
 

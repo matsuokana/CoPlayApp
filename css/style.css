@@ -220,6 +220,10 @@ html, body {
 .sound-btn.selected-sound .s-name { color: var(--gold2); }
 .sound-btn .s-icon { font-size: 2rem; }
 .sound-btn .s-icon-svg { width: 48px; height: 48px; object-fit: contain; }
+/* 笛の3種はアイコンを1.5倍に拡大 */
+.sound-btn[data-id="default_cuckoo"] .s-icon-svg,
+.sound-btn[data-id="default_quail"] .s-icon-svg,
+.sound-btn[data-id="default_nightingale"] .s-icon-svg { width: 72px; height: 72px; }
 .sound-btn .s-name { font-size: 0.78rem; color: var(--gold2); font-weight: bold; text-align: center; word-break: break-all; }
 
 .soundboard-footer {

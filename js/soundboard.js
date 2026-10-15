@@ -1,7 +1,7 @@
 'use strict';
 
 const DEFAULT_SOUNDS = [
-  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default' },
+  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default', end: 1.0 }, // 録音に2回鳴き声が入っているので1回目で止める
   { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       src: 'sounds/quail.mp4',       type: 'default' },
   { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', src: 'sounds/nightingale.mp4', type: 'default' },
   { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      src: 'sounds/maraca.mp4',      type: 'default' },
@@ -17,6 +17,8 @@ const DEFAULT_SOUNDS = [
 
 // ファイル音源のキャッシュ（同じ音を何度でも素早く再生するため）
 const _audioCache = {};
+// end指定のある音源を途中で止めるタイマー（src単位）
+const _stopTimers = {};
 
 const ICON_OPTIONS = [
   '🥁','🎸','🎺','🎹','🎻','🪇','🔔','📯','🪘','🎷',
@@ -120,8 +122,18 @@ async function playSoundById(s) {
       try {
         if (!_audioCache[s.src]) _audioCache[s.src] = new Audio(s.src);
         const audio = _audioCache[s.src];
+        clearInterval(_stopTimers[s.src]);
         audio.currentTime = 0;
         await audio.play();
+        if (s.end) {
+          // 再生開始の遅れは端末ごとに違うので、実際の再生位置で止める
+          _stopTimers[s.src] = setInterval(() => {
+            if (audio.paused || audio.currentTime >= s.end) {
+              audio.pause();
+              clearInterval(_stopTimers[s.src]);
+            }
+          }, 20);
+        }
         return;
       } catch (e) {
         // ファイルが未配置の場合は合成音で代替

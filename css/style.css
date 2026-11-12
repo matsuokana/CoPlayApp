@@ -130,6 +130,11 @@ html, body {
   border: 2px solid var(--gold);
   color: var(--gold2);
 }
+.btn-survey {
+  background: linear-gradient(135deg, #1f4a2a 0%, #2e6b3c 100%);
+  border: 2px solid var(--gold);
+  color: #FFFFFF;
+}
 .home-btn:disabled {
   background: #2a1f10; border-color: rgba(201,168,76,0.45);
   color: rgba(240,208,112,0.55); cursor: default;

@@ -72,7 +72,13 @@ function renderGrid() {
       btn.classList.add('selected-sound');
     }
 
+    btn.addEventListener('touchstart', () => {
+      btn._touched = true;
+      selectSound(s, btn);
+      onSoundTap(s, btn);
+    }, { passive: true });
     btn.addEventListener('click', () => {
+      if (btn._touched) { btn._touched = false; return; } // touchstart で処理済み
       selectSound(s, btn);
       onSoundTap(s, btn);
     });

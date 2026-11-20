@@ -71,7 +71,7 @@
 | マラカス | マラカス振り音 | maraca.svg |
 | おもちゃのラッパ | おもちゃの交響曲風3和音 | toyrumpet.svg |
 | おもちゃのたいこ | おもちゃのドラム打撃音 | toydrum.svg |
-| カスタネット | カスタネット打ち音（2連打） | castanet.svg |
+| カスタネット | 木を1回鋭く打ち鳴らす音 | castanet.svg |
 | ぼよよーん | コミカルなバネ音 | boing.svg |
 | シンバル | シンバルノイズ音 | cymbal.svg |
 | タンバリン | 打撃音＋ジングル時間差 | tambourine.svg |

@@ -1,24 +1,22 @@
 'use strict';
 
+// gainDb：楽器ごとの音量差をそろえる補正値（dB）。
+// 各音の「いちばん大きく聞こえる 50ms」の音量（簡易K特性で重みづけした RMS）が
+// -17.5dB にそろうよう測って決めた。音源を差し替えたら測り直すこと。
 const DEFAULT_SOUNDS = [
-  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default', start: 0.13, end: 1.0 }, // 録音に2回鳴き声が入っているので1回目で止める
-  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       src: 'sounds/quail.mp4',       type: 'default', start: 0.18 },
-  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', src: 'sounds/nightingale.mp4', type: 'default' },
-  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      src: 'sounds/maraca.mp4',      type: 'default', start: 0.05 },
-  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   src: 'sounds/toyrumpet.mp4',   type: 'default', start: 0.12 },
-  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     src: 'sounds/toydrum.mp4',     type: 'default', start: 0.19 }, // 録音冒頭の無音を飛ばす
-  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    src: 'sounds/castanet.mp4',    type: 'default', start: 0.16 },
-  { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       src: 'sounds/boing.mp4',       type: 'default' },
-  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      src: 'sounds/cymbal.mp4',      type: 'default', start: 0.15 },
-  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  src: 'sounds/tambourine.mp4',  type: 'default', start: 0.55 },
-  { id: 'default_triangle',   name: 'トライアングル',   icon: 'icons/triangle.svg',    src: 'sounds/triangle.mp4',    type: 'default' },
-  { id: 'default_ratchet',    name: 'ラチェット',       icon: 'icons/ratchet.svg',     src: 'sounds/ratchet.mp4',     type: 'default' },
+  { id: 'default_cuckoo',     name: 'カッコウ笛',      icon: 'icons/cuckoo.svg',      src: 'sounds/cuckoo.mp4',      type: 'default', gainDb: -1.6, start: 0.13, end: 1.0 }, // 録音に2回鳴き声が入っているので1回目で止める
+  { id: 'default_quail',      name: 'ウズラ笛',         icon: 'icons/quail.svg',       src: 'sounds/quail.mp4',       type: 'default', gainDb: +11.8, start: 0.18 },
+  { id: 'default_nightingale',name: 'ナイチンゲール笛', icon: 'icons/nightingale.svg', src: 'sounds/nightingale.mp4', type: 'default', gainDb: +1.3 },
+  { id: 'default_maraca',     name: 'マラカス',         icon: 'icons/maraca.svg',      src: 'sounds/maraca.mp4',      type: 'default', gainDb: -0.6, start: 0.05 },
+  { id: 'default_toyrumpet',  name: 'おもちゃのラッパ', icon: 'icons/toyrumpet.svg',   src: 'sounds/toyrumpet.mp4',   type: 'default', gainDb: -12.9, start: 0.12 },
+  { id: 'default_toydrum',    name: 'おもちゃのたいこ', icon: 'icons/toydrum.svg',     type: 'default', gainDb: -9.5 }, // 音源ファイルなし：js/percussion.js で合成
+  { id: 'default_castanet',   name: 'カスタネット',     icon: 'icons/castanet.svg',    type: 'default', gainDb: -2.1 }, // 音源ファイルなし：js/percussion.js で合成。ほかより約4dB大きめにしている
+  { id: 'default_boing',      name: 'ぼよよーん',       icon: 'icons/boing.svg',       src: 'sounds/boing.mp4',       type: 'default', gainDb: -5.6 }, // ほかより約4dB大きめにしている
+  { id: 'default_cymbal',     name: 'シンバル',         icon: 'icons/cymbal.svg',      src: 'sounds/cymbal.mp4',      type: 'default', gainDb: -0.2, start: 0.15 },
+  { id: 'default_tambourine', name: 'タンバリン',       icon: 'icons/tambourine.svg',  type: 'default', gainDb: -8.9 }, // 音源ファイルなし：js/percussion.js で合成
+  { id: 'default_triangle',   name: 'トライアングル',   icon: 'icons/triangle.svg',    src: 'sounds/triangle.mp4',    type: 'default', gainDb: +4.8 },
+  { id: 'default_ratchet',    name: 'ラチェット',       icon: 'icons/ratchet.svg',     src: 'sounds/ratchet.mp4',     type: 'default', gainDb: +7.5 },
 ];
-
-// ファイル音源のキャッシュ（同じ音を何度でも素早く再生するため）
-const _audioCache = {};
-// end指定のある音源を途中で止めるタイマー（src単位）
-const _stopTimers = {};
 
 const ICON_OPTIONS = [
   '🥁','🎸','🎺','🎹','🎻','🪇','🔔','📯','🪘','🎷',
@@ -37,14 +35,8 @@ let _recTimer   = null;
 let _recSec     = 0;
 
 async function initSoundboard() {
-  // ファイル音源を先読みしてキャッシュ（タップ時の遅延をなくす）
-  DEFAULT_SOUNDS.forEach(s => {
-    if (s.src) {
-      const audio = new Audio(s.src);
-      audio.preload = 'auto';
-      _audioCache[s.src] = audio;
-    }
-  });
+  // ファイル音源を先読みしてデコードしておく（タップ時の遅延をなくす）
+  DEFAULT_SOUNDS.forEach(s => { if (s.src) loadSoundFile(s.src); });
 
   const userSounds = await loadAllUserSounds();
   _allSounds = [...DEFAULT_SOUNDS, ...userSounds];
@@ -123,29 +115,7 @@ async function onSoundTap(s, btn) {
 async function playSoundById(s) {
   if (!s) return;
   if (s.type === 'default') {
-    // srcがあればファイル音源を優先、失敗時は合成音にフォールバック
-    if (s.src) {
-      try {
-        if (!_audioCache[s.src]) _audioCache[s.src] = new Audio(s.src);
-        const audio = _audioCache[s.src];
-        clearInterval(_stopTimers[s.src]);
-        audio.currentTime = s.start || 0;
-        await audio.play();
-        if (s.end) {
-          // 再生開始の遅れは端末ごとに違うので、実際の再生位置で止める
-          _stopTimers[s.src] = setInterval(() => {
-            if (audio.paused || audio.currentTime >= s.end) {
-              audio.pause();
-              clearInterval(_stopTimers[s.src]);
-            }
-          }, 20);
-        }
-        return;
-      } catch (e) {
-        // ファイルが未配置の場合は合成音で代替
-      }
-    }
-    await playDefaultSound(s.name);
+    await playDefaultSound(s);
   } else {
     const db  = await openDB();
     const tx  = db.transaction('sounds', 'readonly');
